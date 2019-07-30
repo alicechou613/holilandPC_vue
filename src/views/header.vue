@@ -1,0 +1,275 @@
+<template>
+   <div class="div_head">
+      <a href="#" class="a_head_logo">
+        <img src="../assets/index/logo.png" alt="好利来" class="img_head_logo">
+      </a>
+      <!-- 上面的地址购物车登录注册 -->
+      <div class="div_head_right">
+
+        <div class="div_head_d" id="login">
+          <!-- 注销 -->
+          <a href="javascript:;" v-if="isLogin==true" @click="logout" class="a_reg_head" v-text="`注销`"></a>
+          <!-- 注册 -->
+          <a href="reg.html" v-else @click="login" class="a_reg_head" v-text="`注册`"></a>
+          <!-- uname -->
+          <a href="javascript:;" v-if="isLogin==true" @click="logout" v-text="uname" class="a_reg_head  a_login_head"></a>
+          
+          <!-- 登录 -->
+          <a href="login.html" v-else @click="login" class="a_reg_head a_login_head" v-text="`登录`"></a>
+          <!-- 购物车 -->
+          <div class="div_trolley">
+            <a href="#" class="a_trolley">
+              <span class="span_trolley">件</span>
+              <span class="span_trolley">0</span>
+            </a>
+          </div>
+          <!-- 地址 -->
+          <div class="div_address_head">
+            <a href="#" class="a_address_head">
+              <span class="a_reg_head">北京</span>
+              <img src="../assets/index/dizhi_icon.png" class="div_a_coord_head" alt="">
+            </a>
+          </div>
+          <!-- 导航栏 -->
+          <div class="div_nav">
+            <ul class="ul_nav">
+              <li class="li_nav li_nav_2">
+                <a href="">
+                  <span class="span_nav">All Products</span>
+                  <span class="span_nav">全部产品</span>
+                </a>
+              </li>
+              <li class="li_nav li_nav_2" id="li_cake">
+                <a href="">
+                  <span class="span_nav">Cake Series</span>
+                  <span class="span_nav">蛋糕系列</span>
+                  <ul class="ul_cake">
+                    <li>
+                      <p @click="a_series()">
+                        经典系列
+                      </p>
+                    </li>
+                    <li>
+                      <p @click="a_series()">
+                        儿童系列
+                      </p>
+                    </li>
+                    <li>
+                      <p @click="a_series()">
+                        尊爱系列
+                      </p>
+                    </li>
+                  </ul>
+                </a>
+                
+                  
+              </li>
+              <li class="li_nav li_nav_2">
+                <a href="">
+                  <span class="span_nav">Wagashi</span>
+                  <span class="span_nav ">零食糕点</span>
+                </a>
+              </li>
+              <li class="li_nav">
+                <a href="aboutus.html">
+                  <span class="span_nav">About Us</span>
+                  <span class="span_nav">关于我们</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="div_phone">
+          <img src="../assets/index/phone_icon.png" alt="客服电话" class="img_phone">
+          <span class="span_phone">400-700-5999</span>
+        </div>
+        <div class="div_search">
+          <input type="text" id="search" class="input_search">
+          <img src="../assets/index/search_icon.png" alt="搜索" class="img_search">
+        </div>
+      </div>
+    </div> 
+</template>
+
+
+<script>
+ export default {
+   data(){
+     return {
+         isLogin:true,
+        uname:"dingding"
+     }
+   },
+   methods:{
+        login(){
+            this.isLogin=true
+        },
+        logout(){
+            this.isLogin=false
+        },
+        a_series(){
+            console.log(222)
+        }
+    }
+ }  
+ 
+</script>
+<style scoped>
+.div_head{
+  width: 996px;
+  height: 115px;
+  margin:0 auto 10px;
+  background:#fff;
+  font-family: "Î¢ÈíÑÅºÚ";
+}
+.a_head_logo{
+  float: left;
+  width: 151px;
+  height: 75px;
+  margin-top: 33px;
+}
+.img_head_logo{
+  float: left;
+  width: 151px;height: 61px;
+}
+.div_head_right{
+  width: 845px;height: 75px;
+  margin-top:25px;
+  float: right;
+  color:#6bc4df;
+}
+.div_head_d{
+  float: right;
+  width: 845px;height: 25px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.a_reg_head{
+  float: right;
+  color:#6bc4df;
+  padding-top:8px;
+}
+.a_login_head{
+  margin: 0 20px;
+}
+.div_trolley{
+  width: 43.87px;height: 25px;
+  float: right;
+}
+.a_trolley{
+  float: right;
+  width: 50px;height: 25px;
+  background-image: url(../assets/index/cart_icon.png);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size:20px 20px;
+  font-size: 13px;
+  color: #6bc4df;
+}
+.span_trolley{
+  float: right;
+  padding-top: 8.2px
+}
+.div_address_head{
+  width: auto;
+  float: right;
+  margin-right:20px;
+}
+.a_reg_head{
+  width: auto;
+  float: right;
+}
+.div_a_coord_head{
+  width: 9px;height: 14px;
+  padding-right:8px;
+  margin-top: 10px;
+}
+.div_nav{
+  width:664px;height: 50px;
+  padding-right: 24px;
+  float: left;
+  text-align: center;
+  font-size: 14px;
+}
+.ul_nav{
+  width:664px;height: 50px;
+  float: left;
+}
+.li_nav{
+  float: left;
+  width:164px;height: 50px;
+  padding-right: 1px;
+}
+.li_nav_2{
+  border-right: 1px solid #6bc4df;
+}
+a{
+  color:#6bc4df;
+}
+.span_nav{
+  display: block;
+  text-align: center;
+  width: 164px;height: 25px;
+  line-height: 35px;
+  color:#6bc4df;
+}
+.ul_cake{
+  display: none;
+  width:164px;height:140px;
+  background: #fff;
+  z-index: 1;
+}
+.ul_cake li p{
+    padding:7px 0px;
+    font-size:13px;
+}
+.ul_cake li p:first-child{
+    padding-top:10px;
+}
+#li_cake:hover .ul_cake{
+  display:block;
+
+}
+.div_phone{
+  width: 120px;height: 17px;
+  margin:2px 32px 0 5px;
+  font-size: 13px;
+  float: right;
+  text-align: right;
+}
+.img_phone{
+  height:15px;
+  display: inline-block;
+  vertical-align: top;
+}
+.span_phone{
+  display: inline-block;
+}
+.div_search{
+  width:105px;
+  height: 20px;
+  margin: 5px 42px 0 5px;
+  clear: both;
+  float: right;
+  position: relative;
+}
+.input_search{
+  display: inline-block;
+  color: #999;
+  width: 87px;height: 18px;
+  margin-left: 14px;
+  background: #fff;
+  right:2px;
+  top:0px;
+  outline: 1px solid #6bc4df;
+  padding-left: 18px;
+}
+.img_search{
+  position: absolute;
+  top:1px;
+  left: 16px;
+  width: 18px;height: 18px;
+}
+</style>
