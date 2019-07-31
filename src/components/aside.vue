@@ -44,7 +44,7 @@
             </a>
           </li>
           <li class="li_help">
-            <router-link to="/businesslicense"class="a_help">
+            <router-link to="/businesslicense" class="a_help">
               官网营业资质
             </router-link>
           </li>
