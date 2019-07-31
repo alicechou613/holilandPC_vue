@@ -174,12 +174,16 @@ export default {
             console.log(2)
             //手机已注册
             // this.axios.get()
-             this.axios.post("/api/checkLogin",{
-                     data: {
-                         "phone": this.phone
-                    }}).then(result=>{
+            // api/register phone   upwd
+            // api/login  phone   upwd
+            // api/checkLogin  参数  phone
+            var obj={phone:this.phone}
+             this.axios.post("http://192.168.3.39:80/api/checkLogin",obj).then(result=>{
+                 console.log(5)
                 console.log(result)
-            })
+                console.log(6)
+            }).catch(err=>{console.log(err)})
+
             console.log(3)
             // if(this.qwd.length<6||this.qwd.length>20){
             //     this.qwd='密码必须输入6-20位字符'

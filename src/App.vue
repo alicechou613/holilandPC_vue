@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <header1></header1>
+    <myheader></myheader>
     <!-- <div id="nav"> -->
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
     <!-- </div> -->
     <router-view/>
+    <myfooter></myfooter>
   </div>
 </template>
 <script>
-import header1 from "./views/header.vue"
+import myheader from "./views/header.vue"
+import myfooter from "./views/footer.vue"
 export default {
   data(){return{}},
   components:{
-    header1
+    myheader,
+    myfooter
   }
 }
 </script>

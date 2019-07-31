@@ -1,11 +1,10 @@
 <template>
    <div class="div_head">
-      <a href="#" class="a_head_logo">
+      <router-link to="/" class="a_head_logo">
         <img src="../assets/index/logo.png" alt="好利来" class="img_head_logo">
-      </a>
+      </router-link>
       <!-- 上面的地址购物车登录注册 -->
       <div class="div_head_right">
-
         <div class="div_head_d" id="login">
           <!-- 注销 -->
           <a href="javascript:;" v-if="isLogin==true" @click="logout" class="a_reg_head" v-text="`注销`"></a>
@@ -34,53 +33,54 @@
           <div class="div_nav">
             <ul class="ul_nav">
               <li class="li_nav li_nav_2">
-                <a href="">
+                <router-link to="/allproducts">
                   <span class="span_nav">All Products</span>
                   <span class="span_nav">全部产品</span>
-                </a>
+                </router-link>
               </li>
               <li class="li_nav li_nav_2" id="li_cake">
-                <a href="">
-                  <span class="span_nav">Cake Series</span>
-                  <span class="span_nav">蛋糕系列</span>
+                <div>
+                  <router-link to="/cakeSeries">
+                    <span class="span_nav">Cake Series</span>
+                    <span class="span_nav">蛋糕系列</span>
+                  </router-link>
                   <ul class="ul_cake">
                     <li>
-                      <p @click="a_series()">
+                      <router-link to="/classicSeries">
                         经典系列
-                      </p>
+                      </router-link>
                     </li>
                     <li>
-                      <p @click="a_series()">
+                      <router-link to="/childrenSeries">
                         儿童系列
-                      </p>
+                      </router-link>
                     </li>
                     <li>
-                      <p @click="a_series()">
+                      <router-link to="/starProducts">
                         尊爱系列
-                      </p>
+                      </router-link>
                     </li>
                   </ul>
-                </a>
-                
+                </div>
                   
               </li>
               <li class="li_nav li_nav_2">
-                <a href="">
+                <router-link to="/wagashi">
                   <span class="span_nav">Wagashi</span>
                   <span class="span_nav ">零食糕点</span>
-                </a>
+                </router-link>
               </li>
               <li class="li_nav">
-                <a href="aboutus.html">
+                <router-link to="/aboutus">
                   <span class="span_nav">About Us</span>
                   <span class="span_nav">关于我们</span>
-                </a>
+                </router-link>
               </li>
             </ul>
           </div>
 
         </div>
-        <div class="div_phone">
+        <div class="div_divphone">
           <img src="../assets/index/phone_icon.png" alt="客服电话" class="img_phone">
           <span class="span_phone">400-700-5999</span>
         </div>
@@ -98,7 +98,8 @@
    data(){
      return {
          isLogin:true,
-        uname:"dingding"
+        uname:"dingding",
+
      }
    },
    methods:{
@@ -110,11 +111,13 @@
         },
         a_series(){
             console.log(222)
-        }
+        },
+        
     }
  }  
  
 </script>
+
 <style scoped>
 .div_head{
   width: 996px;
@@ -216,23 +219,25 @@ a{
   color:#6bc4df;
 }
 .ul_cake{
-  display: none;
-  width:164px;height:140px;
+  width:124px;height:120px;
+  margin:10px 20px 0;
   background: #fff;
-  z-index: 1;
+  z-index: 9999999;
+  position: relative;
+  display: none;
+}
+#li_cake:hover .ul_cake{
+  display: block;
 }
 .ul_cake li p{
-    padding:7px 0px;
+    padding:9px 0px;
     font-size:13px;
 }
 .ul_cake li p:first-child{
     padding-top:10px;
 }
-#li_cake:hover .ul_cake{
-  display:block;
 
-}
-.div_phone{
+.div_divphone{
   width: 120px;height: 17px;
   margin:2px 32px 0 5px;
   font-size: 13px;

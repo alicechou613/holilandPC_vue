@@ -1,5 +1,5 @@
 <template>
-<!-- 商品列表页-全部商品 -->
+<!-- 商品列表页-尊爱系列 -->
     <div class="div_list">
       <div class="div_div_list">
         <div class="div_product">
@@ -22,6 +22,4 @@ export default {
     }
 }
 </script>
-
-
 

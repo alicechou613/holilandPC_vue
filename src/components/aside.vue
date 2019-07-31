@@ -44,9 +44,9 @@
             </a>
           </li>
           <li class="li_help">
-            <a href="" class="a_help">
+            <router-link to="/businesslicense"class="a_help">
               官网营业资质
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -59,9 +59,9 @@
           </a>
         </li>
         <li class="li_help">
-          <a href="#" class="a_help">
+          <router-link to="/blackswanrecruit" class="a_help">
             黑天鹅招聘
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -94,9 +94,9 @@
           </a>
         </li>
         <li class="li_help">
-          <a href="http://www.luohongartmuseum.com/" class="a_help" target="_blank">
+          <router-link to="http://www.luohongartmuseum.com/" class="a_help" target="_blank">
             罗红摄影艺术馆
-          </a>
+          </router-link>
         </li>
         <li class="li_help">
           <!-- <a href="https://www.baidu.com/" class="a_help" target="_blank"> -->
