@@ -100,8 +100,6 @@ import myaside from "./aside.vue"
 export default {
     data(){return{}},
     components:{myaside},
-    
-    
 }
 </script>
 <style scoped>
@@ -111,6 +109,16 @@ p{
     font-family:"宋体";
     margin:5px 0;
     font-size:16px;
+}
+.p_title_help{
+  font-size: 24px;
+  height: 85.818px;
+  color: #00ccff;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+  font-family: 黑体;
+  line-height: 1.8;
 }
 .font_style1{
     color:rgb(13, 13, 13);

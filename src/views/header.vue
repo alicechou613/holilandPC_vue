@@ -17,10 +17,10 @@
           <a href="login.html" v-else @click="login" class="a_reg_head a_login_head" v-text="`登录`"></a>
           <!-- 购物车 -->
           <div class="div_trolley">
-            <a href="#" class="a_trolley">
+            <router-link to="/cart" class="a_trolley">
               <span class="span_trolley">件</span>
               <span class="span_trolley">0</span>
-            </a>
+            </router-link>
           </div>
           <!-- 地址 -->
           <div class="div_address_head">
@@ -85,8 +85,10 @@
           <span class="span_phone">400-700-5999</span>
         </div>
         <div class="div_search">
-          <input type="text" id="search" class="input_search">
-          <img src="../assets/index/search_icon.png" alt="搜索" class="img_search">
+          <div class="div_input_search">
+            <input type="text" id="search" class="input_search">
+            <img src="../assets/index/search_icon.png" alt="搜索" class="img_search">
+          </div>
         </div>
       </div>
     </div> 
@@ -264,11 +266,9 @@ a{
   display: inline-block;
   color: #999;
   width: 87px;height: 18px;
-  margin-left: 14px;
   background: #fff;
   right:2px;
   top:0px;
-  outline: 1px solid #6bc4df;
   padding-left: 18px;
 }
 .img_search{
@@ -276,5 +276,11 @@ a{
   top:1px;
   left: 16px;
   width: 18px;height: 18px;
+}
+.div_input_search{
+  border: 1px solid #6bc4df;
+  width:105px;
+  height:18px;
+  margin-left: 14px;
 }
 </style>

@@ -4,14 +4,14 @@
         <h3>购物指南</h3>
         <ul >
           <li class="li_help">
-            <a href="shoppingguide.html" class="a_help">
+            <router-link to="/shoppingguide" class="a_help">
               购物流程
-            </a>
+            </router-link>
           </li>
           <li class="li_help">
-            <a href="cakesize.html" class="a_help">
+            <router-link to="/cakeSize" class="a_help">
               蛋糕尺寸
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -29,9 +29,9 @@
             </a>
           </li>
           <li class="li_help">
-            <a href="" class="a_help">
+            <router-link to="/storeAddress" class="a_help">
               北京门店
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -79,9 +79,9 @@
           </a>
         </li>
         <li class="li_help">
-          <a href="#" class="a_help">
+          <router-link to="/league" class="a_help">
             加盟维权
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

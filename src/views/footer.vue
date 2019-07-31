@@ -13,8 +13,8 @@
                 <!-- <img src="./images/index/bj3.png" class="img_help"> -->
                 <i class="i_help_title"></i>
                 <span class="span_title_help">购物指南</span>
-                <a href="#" class="a_help">购物流程</a>
-                <a href="#" class="a_help">蛋糕尺寸</a>
+                <router-link to="/shoppingguide" class="a_help">购物流程</router-link>
+                <router-link to="/cakeSize" class="a_help">蛋糕尺寸</router-link>
             </div>
         <!-- 订购范围 -->
             <div class="div_title">
@@ -22,7 +22,7 @@
             <span class="span_title_help">订购范围</span>
             <a href="#" class="a_help">地图查询</a>
             <a href="#" class="a_help">团购业务</a>
-            <a href="#" class="a_help">北京门店</a>
+             <router-link to="/storeAddress" class="a_help">北京门店</router-link>
             </div>
         <!-- 公司服务 -->
             <div class="div_title">
@@ -44,7 +44,7 @@
             <span class="span_title_help">售后服务</span>
             <a href="#" class="a_help">投诉渠道</a>
             <a href="#" class="a_help">客服中心</a>
-            <a href="#" class="a_help">加盟维权</a>
+            <router-link to="/league" class="a_help">加盟维权</router-link>
             </div>
         <!-- 友情链接 -->
             <div class="div_title">
