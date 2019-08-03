@@ -29,59 +29,31 @@
         <!-- 类型、分类、三个系列 -->
         <div class="div_series">
         <!-- 经典系列 -->
-            <div class="a_img_series">
-                <img src="../assets/index/1556050944618701139.jpg" alt="" class="img_series">
-            </div>
-            <div class="a_img_series">
         <!-- 儿童系列 -->
-            <img src="../assets/index/1556053192285643115.jpg" alt="" class="img_series">
-            </div>
         <!-- 尊爱系列 -->
-            <div class="a_img_series">
-                <img src="../assets/index/1556051963477236297.jpg" alt="" class="img_series">
+            <div class="a_img_series" v-for="(elem,i) of series" :key="i">
+                <img :src="elem.simgurl" alt="" class="img_series">
             </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">经典系列</p>
-                <p class="p_series">CLASSIC SERIES</p>
-            </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">儿童系列</p>
-                <p class="p_series">CHILDREN SERIES</p>
-            </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">尊爱系列</p>
-                <p class="p_series">RESPECT AND LOVE</p>
+            <div class="a_series" v-for="(elem,i) of series" :key="i">
+                <p class="p_series p_chinsesseries">{{elem.stitle}}</p>
+                <p class="p_series">{{elem.stitleE}}</p>
             </div>
         </div>
         <!-- 视频 -->
         <div class="div_video">
-        <img src="../assets/index/1556240157651442682.jpg" alt="" class="img_video">
+        <img src="http://sinacloud.net/holiland/index/1556240157651442682.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807684&ssig=OTIWyirOaH" alt="" class="img_video">
         <video src="http://cloud.video.taobao.com//play/u/2455221099/p/1/e/6/t/1/50071310842.mp4" controls type="video/mp4" poster="posterimage.jpg" class="video_video">
         </video>
         </div>
         <!-- 服务与介绍 -->
         <div class="div_series">
-            <div class="a_img_series">
-                <img src="../assets/index/1528259724147241527.jpg" alt="" class="img_series">
+            <div class="a_img_series" v-for="(elem,i) of service" :key="i">
+                <img :src="elem.serviceimg" alt="" class="img_series">
             </div>
-            <div class="a_img_series">
-                <img src="../assets/index/1458096609174521318.jpg" alt="" class="img_series">
-            </div>
-            <div class="a_img_series">
-                <img src="../assets/index/1458039189338219135.jpg" alt="" class="img_series">
-            </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">配送包</p>
-                <p class="p_series">DELIVERY PACKAGE</p>
+            <div class="a_series"  v-for="(elem,i) of service" :key="i">
+                <p class="p_series p_chinsesseries">{{elem.servicetitle}}</p>
+                <p class="p_series">{{elem.servicetitleE}}</p>
                 </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">店面形象</p>
-                <p class="p_series">STORE IMAGES</p>
-                </div>
-            <div class="a_series">
-                <p class="p_series p_chinsesseries">配送服务</p>
-                <p class="p_series">DELIVERY SERVICE</p>
-            </div>
         </div>
     </div>
 </template>
@@ -89,31 +61,39 @@
 export default {
   data() {
     return {
-        videourl:''
+        videourl:'',
+        service:[],
+        series:[],
+        banner:[]
     };
   },
   methods: {
     load() {
       console.log(111);
-      this.axios.get("http://192.168.3.39/api/video",{
+      //获取视频数据
+       this.axios.get("/api/video",{
               params: {
                   "vid": 1
               }}).then(result=>{
-          console.log(result.data)
-          this.videourl=result.data.data[0].url
-          
+        //   console.log(result.data)
+          this.videourl=result.data.data[0].url;
       })
-      //测试接口。天气的
-      // this.axios.get("/api/?version=v1&cityid=101110101").then(result=>{
-      //     console.log(result)
-      // })
-      // this.axios.get("/api/video?vid=1").then(result=>{
-      //     console.log(result)
-      // })
-      // this.axios.get("http://192.168.3.39:80/api/video?vid=1").then(result=>{
-    //   this.axios.get("http://192.168.3.39:80/api/video?vid=1").then(result => {
-    //     console.log(result);
-    //   });
+      //获取服务数据
+        this.axios.get("/api/service").then(result=>{
+        //    console.log(result.data.data)
+           this.service=result.data.data.reverse();
+      })
+      console.log(4)
+      //获取蛋糕系列数据
+        this.axios.get("/api/series").then(result=>{
+        //    console.log(result.data.data)
+           this.series=result.data.data.reverse();
+      })
+      //获取轮播图数据
+        this.axios.get("/api/banner").then(result=>{
+           console.log(result.data.data)
+           this.banner=result.data.data;
+        })
     }
   },
   created() {

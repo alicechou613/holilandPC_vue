@@ -29,10 +29,8 @@ import message from './components/message.vue'
 
 Vue.use(Router)
 
-
 export default new Router({
   routes: [
-
     {path: '/',component: index},//首页
     {path: '/aboutus',component: aboutus},//关于我们页-已完成
     {path: '/reg',component: reg},//注册
@@ -58,7 +56,5 @@ export default new Router({
     {path: '/shoppingguide',component: shoppingguide},//购物流程
     {path: '/storeAddress',component: storeAddress},//地区门店列表
     {path: '/cakeSize',component: cakeSize},//蛋糕尺寸-已完成
-  
   ],
-  
 })

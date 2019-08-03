@@ -19,6 +19,16 @@
 export default {
     data(){
         return{}
+    },
+    methods:{
+        load(){
+            this.axios.get("/api/allProduct").then(result=>{
+                console.log(result.data.data)
+            })
+        }
+    },
+    created(){
+        this.load()
     }
 }
 </script>

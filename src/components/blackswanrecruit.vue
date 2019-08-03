@@ -13,7 +13,7 @@
                 黑天鹅招聘
                 </p>  
             </div>
-                <img src="../assets/about/1454395774797972.jpg" alt="">
+                <img src="http://sinacloud.net/holiland/aboutus/1454395774797972.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=Q8a2dOdwOU" alt="">
                 <p class="font_style1">
                     随着黑天鹅蛋糕店逐渐被大众所接受，各城市的各门店都需要很多的新力量，现面向所有有理想、有梦想、具备勤奋谦虚乐观精神的青年进行招募！
                 </p>
@@ -46,8 +46,8 @@
                 <p>
                     北京、天津、沈阳、长春、成都、大连、哈尔滨、石家庄
                 </p>
-                <img src="../assets/about/1453346387572279.jpg" alt="">
-                <img src="../assets/about/1453346394126685.jpg" alt="" style="margin-top:-5px;">
+                <img src="http://sinacloud.net/holiland/aboutus/1453346387572279.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=RlJB5OPtVc" alt="">
+                <img src="http://sinacloud.net/holiland/aboutus/1453346394126685.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=XBymrgSO33" alt="" style="margin-top:-5px;">
                 <br>
                 <p class="font_style1" style="font-weight: lighter;font-size:20px;">
                     二、黑天鹅配送推广专员
@@ -68,8 +68,8 @@
                 </p>
                 <p>工作地点：</p>
                 <p>北京、天津、沈阳、长春、成都、大连、哈尔滨、石家庄</p>
-                <img src="../assets/about/1453346416830857.jpg" alt="">
-                <img src="../assets/about/1453346469385134.jpg" alt="" style="margin-top:-5px;">
+                <img src="http://sinacloud.net/holiland/aboutus/1453346416830857.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=7M%2FjS0ASRA" alt="">
+                <img src="http://sinacloud.net/holiland/aboutus/1453346469385134.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=y4IEDt4Y%2Bg" alt="" style="margin-top:-5px;">
                 <br><br>
                 <p>京津冀地区招聘地址：</p>
                 <p>北京市朝阳区北三环安贞桥环球贸易中心东侧黑天鹅艺术蛋糕店</p>
