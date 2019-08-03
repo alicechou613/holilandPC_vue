@@ -19,14 +19,14 @@
           <h3>订购范围</h3>
         <ul>
           <li class="li_help">
-            <a href="https://map.baidu.com/" class="a_help" target="_blank">
+            <span @click="map" class="a_help">
               地图查询
-            </a>
+            </span>
           </li>
           <li class="li_help">
-            <a href="" class="a_help">
+            <router-link to="/message" class="a_help">
               团购业务
-            </a>
+            </router-link>
           </li>
           <li class="li_help">
             <router-link to="/storeAddress" class="a_help">
@@ -39,9 +39,9 @@
           <h3>公司服务</h3>
         <ul>
           <li class="li_help">
-            <a href="http://c.jdpay.com/login?ReturnUrl=http%3A%2F%2Fc.jdpay.com%2FcardDetail" class="a_help" target="_blank">
+            <span @click="chu" class="a_help">
               储值卡
-            </a>
+            </span>
           </li>
           <li class="li_help">
             <router-link to="/businesslicense" class="a_help">
@@ -54,9 +54,9 @@
         <h3>企业招聘</h3>
       <ul>
         <li class="li_help">
-          <a href="#" class="a_help" target="_blank">
+          <router-link to="/holilandrecruit" class="a_help">
             好利来招聘
-          </a>
+          </router-link>
         </li>
         <li class="li_help">
           <router-link to="/blackswanrecruit" class="a_help">
@@ -69,14 +69,14 @@
         <h3>售后服务</h3>
       <ul>
         <li class="li_help">
-          <a href="#" class="a_help" target="_blank">
+          <router-link to="/message" class="a_help">
             投诉渠道
-          </a>
+          </router-link>
         </li>
         <li class="li_help">
-          <a href="#" class="a_help">
+          <router-link to="/service" class="a_help">
             客服中心
-          </a>
+          </router-link>
         </li>
         <li class="li_help">
           <router-link to="/league" class="a_help">
@@ -89,20 +89,19 @@
         <h3>友情链接</h3>
       <ul>
         <li class="li_help">
-          <a href="http://www.blackswancake.com/city" class="a_help" target="_blank">
+          <span  @click="black" class="a_help">
             黑天鹅蛋糕官网
-          </a>
+          </span>
         </li>
         <li class="li_help">
-          <router-link to="http://www.luohongartmuseum.com/" class="a_help" target="_blank">
+          <span @click="luo" class="a_help">
             罗红摄影艺术馆
-          </router-link>
+          </span>
         </li>
         <li class="li_help">
-          <!-- <a href="https://www.baidu.com/" class="a_help" target="_blank"> -->
-          <router-link to="https://www.baidu.com/">
+          <span @click="bai" class="a_help">
             百度
-            </router-link>
+            </span>
           <!-- </a> -->
         </li>
       </ul>
@@ -111,6 +110,27 @@
 </template>
 <script>
 export default {
-    data(){return{}}
-}
+  data() {
+    return {};
+  },
+  methods: {
+    chu() {
+      window.open(
+        "http://c.jdpay.com/login?ReturnUrl=http%3A%2F%2Fc.jdpay.com%2FcardDetail"
+      );
+    },
+    bai() {
+      window.open("https://www.baidu.com/");
+    },
+    black() {
+      window.open("http://www.blackswancake.com/city");
+    },
+    luo() {
+      window.open("http://www.luohongartmuseum.com/");
+    },
+    map() {
+      window.open("https://map.baidu.com/");
+    }
+  }
+};
 </script>

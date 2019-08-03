@@ -29,6 +29,7 @@ import message from './components/message.vue'
 
 Vue.use(Router)
 
+
 export default new Router({
   routes: [
 
@@ -58,5 +59,6 @@ export default new Router({
     {path: '/storeAddress',component: storeAddress},//地区门店列表
     {path: '/cakeSize',component: cakeSize},//蛋糕尺寸-已完成
   
-  ]
+  ],
+  
 })
