@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Aug 02, 2019 at 03:42 PM
--- Server version: 5.6.34-log
--- PHP Version: 7.2.1
+-- 主机： 127.0.0.1
+-- 生成日期： 2019-08-03 16:14:17
+-- 服务器版本： 10.1.36-MariaDB
+-- PHP 版本： 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,47 +19,57 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `holiland`
+-- 数据库： `holiland`
 --
-
+SET NAMES UTF8;
+DROP DATABASE IF EXISTS holiland;
+CREATE DATABASE holiland CHARSET = UTF8;
+USE holiland;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cakeseries`
+-- 表的结构 `cakeseries`
 --
 
 CREATE TABLE `cakeseries` (
   `cakeseriesid` int(11) NOT NULL,
-  `cakeseriesimg` int(11) NOT NULL
+  `cakeseriesimgurl` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `cakeseries`
+--
+
+INSERT INTO `cakeseries` (`cakeseriesid`, `cakeseriesimgurl`) VALUES
+(1, 'http://www.holiland.com/data/afficheimg/1556066281201055112.jpg'),
+(2, 'http://www.holiland.com/data/afficheimg/1556068738109862476.jpg'),
+(3, 'http://www.holiland.com/data/afficheimg/1457033830198279930.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `carousel`
+-- 表的结构 `carousel`
 --
 
 CREATE TABLE `carousel` (
   `cid` int(12) NOT NULL,
-  `cimg` varchar(128) NOT NULL,
-  `z-index` tinyint(3) NOT NULL,
-  `url` varchar(128) NOT NULL
+  `cimgurl` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `carousel`
+-- 转存表中的数据 `carousel`
 --
 
-INSERT INTO `carousel` (`cid`, `cimg`, `z-index`, `url`) VALUES
-(1, 'http://www.holiland.com/data/afficheimg/1457047833194068991.jpg', 1, ''),
-(2, 'http://www.holiland.com/data/afficheimg/1456986961694221493.jpg', 2, ''),
-(3, 'http://www.holiland.com/data/afficheimg/1464247474728938268.jpg', 3, ''),
-(4, 'http://www.holiland.com/data/afficheimg/1451241729614010049.jpg', 4, '');
+INSERT INTO `carousel` (`cid`, `cimgurl`) VALUES
+(1, 'http://www.holiland.com/data/afficheimg/1451241729614010049.jpg'),
+(2, 'http://www.holiland.com/data/afficheimg/1456986961694221493.jpg'),
+(3, 'http://www.holiland.com/data/afficheimg/1457047833194068991.jpg'),
+(4, 'http://www.holiland.com/data/afficheimg/1464247474728938268.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- 表的结构 `cart`
 --
 
 CREATE TABLE `cart` (
@@ -78,20 +88,7 @@ CREATE TABLE `cart` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `footer2`
---
-
-CREATE TABLE `footer2` (
-  `footer2id` int(12) NOT NULL,
-  `footer2title` varchar(128) NOT NULL,
-  `footer2titileE` varchar(128) NOT NULL,
-  `footer2img` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `holiland_carousel_item`
+-- 表的结构 `holiland_carousel_item`
 --
 
 CREATE TABLE `holiland_carousel_item` (
@@ -104,29 +101,7 @@ CREATE TABLE `holiland_carousel_item` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `holiland_navbar_item`
---
-
-CREATE TABLE `holiland_navbar_item` (
-  `btitle` varchar(10) DEFAULT NULL,
-  `burl` varchar(128) DEFAULT NULL,
-  `bztitle` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `holiland_navbar_item`
---
-
-INSERT INTO `holiland_navbar_item` (`btitle`, `burl`, `bztitle`) VALUES
-('All Produc', 'index.html', '全部产品'),
-('Cake Serie', 'index.html', '蛋糕系列'),
-('Wagashi', 'index.html', '零食糕点'),
-('About Us', 'index.html', '关于我们');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `holiland_site_info`
+-- 表的结构 `holiland_site_info`
 --
 
 CREATE TABLE `holiland_site_info` (
@@ -138,7 +113,7 @@ CREATE TABLE `holiland_site_info` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productcake`
+-- 表的结构 `productcake`
 --
 
 CREATE TABLE `productcake` (
@@ -147,7 +122,9 @@ CREATE TABLE `productcake` (
   `pservice` varchar(128) NOT NULL,
   `price` smallint(128) NOT NULL,
   `pattr` varchar(128) NOT NULL,
-  `tableware` varchar(128) NOT NULL,
+  `pattrprice` decimal(12,0) NOT NULL,
+  `tableware` varchar(128) NOT NULL COMMENT '餐具',
+  `img_right` varchar(128) NOT NULL,
   `img_sm` varchar(128) NOT NULL,
   `img_md` varchar(128) NOT NULL,
   `img_lg` varchar(128) NOT NULL,
@@ -156,18 +133,62 @@ CREATE TABLE `productcake` (
   `series` varchar(128) NOT NULL COMMENT '系列'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `productcake`
+--
+
+INSERT INTO `productcake` (`pid`, `title`, `pservice`, `price`, `pattr`, `pattrprice`, `tableware`, `img_right`, `img_sm`, `img_md`, `img_lg`, `img_body`, `img_main`, `series`) VALUES
+(1, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(2, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(3, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(4, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(5, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(6, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(7, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(8, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(9, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(10, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(11, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(12, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(13, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(14, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(15, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(16, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(17, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(18, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(19, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(20, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(21, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(22, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(23, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(24, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(25, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(26, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(27, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(28, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(29, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(30, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(31, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(32, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3'),
+(33, '感恩有您', '', 289, '20cm-酸奶提子', '289', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926928129726700.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1040_P_1552023697058.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955714759181.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1040_G_1552023697572.jpg', '1'),
+(34, '浪漫甜心', '', 269, '15x15cm-双莓慕斯+草莓', '269', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551926736694955098.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1042_P_1552021476062.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551955509692884.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1042_G_1552021476415.jpg', '1'),
+(35, '小小飞行员', '', 299, '20cm-酸奶提子,20cm-双莓慕斯+草莓', '299', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551928342967487598.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1028_P_1552020798662.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551957126851457.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1028_G_1552020798350.jpg', '2'),
+(36, '瑞鹤呈祥', '', 569, '35cm-酸奶提子,40cm-酸奶提子', '569', '2人份,不要餐具,3人份', 'http://www.holiland.com/data/anatomy/201903/1551927334084710451.jpg', '', '', 'http://www.holiland.com/images/201903/goods_img/1036_P_1552021593410.jpg', 'http://www.holiland.com/images/upload/images/20190307/1551956118920856.jpg,http://www.holiland.com/images/upload/images/20190307', 'http://www.holiland.com/images/201903/goods_img/1036_G_1552021593270.jpg', '3');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productwagashi`
+-- 表的结构 `productwagashi`
 --
 
 CREATE TABLE `productwagashi` (
   `pid` int(12) NOT NULL,
-  `ptitle` varchar(128) NOT NULL,
+  `title` varchar(128) NOT NULL,
   `pservice` varchar(128) NOT NULL,
   `price` smallint(128) NOT NULL,
   `pattr` varchar(128) NOT NULL COMMENT '规格',
+  `pattrprice` decimal(10,0) NOT NULL,
+  `img_right` varchar(128) NOT NULL,
   `img_sm` varchar(128) NOT NULL,
   `img_md` varchar(128) NOT NULL,
   `img_lg` varchar(128) NOT NULL,
@@ -177,36 +198,66 @@ CREATE TABLE `productwagashi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `productwagashi`
+-- 转存表中的数据 `productwagashi`
 --
 
-INSERT INTO `productwagashi` (`pid`, `ptitle`, `pservice`, `price`, `pattr`, `img_sm`, `img_md`, `img_lg`, `img_body`, `img_main`, `url`) VALUES
-(1, '海盐玫瑰小酥', '满150包邮顺丰发货', 29, '', 'http://www.holiland.com/data/anatomy/201904/1555528465226094161.jpg', '', '\'http://www.holiland.com/images/201904/goods_img/1117_P_1555527068627.jpg\',\'http://www.holiland.com/images/201904/goods_img/1117', '\r\n\'http://www.holiland.com/images/upload/images/20190418/1555555729653371.jpg\',\'http://www.holiland.com/images/upload/images/201', 'http://www.holiland.com/images/201904/goods_img/1117_G_1555527068773.jpg', '');
-
+INSERT INTO `productwagashi` (`pid`, `title`, `pservice`, `price`, `pattr`, `pattrprice`, `img_right`, `img_sm`, `img_md`, `img_lg`, `img_body`, `img_main`, `url`) VALUES
+(1, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(2, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(3, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(4, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(5, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(6, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(7, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(8, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(9, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(10, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(11, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(12, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(13, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(14, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(15, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(16, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(17, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(18, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(19, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(20, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(21, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(22, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(23, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(24, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(25, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(26, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(27, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', ''),
+(28, '半熟芝士冰淇淋（10支）', '', 139, '7味全家福系列,可可奶茶系列,可爱甜心系列', '139', 'http://www.holiland.com/data/anatomy/201905/1557966759901891237.jpg', '', '', 'http://www.holiland.com/images/201905/goods_img/1139_P_1557966759224.jpg,http://www.holiland.com/images/201905/goods_img/1139_P_', 'http://www.holiland.com/images/upload/images/20190516/1557995453894812.jpg,http://www.holiland.com/images/upload/images/20190516', 'http://www.holiland.com/images/201905/goods_img/1139_G_1557966759836.jpg', ''),
+(29, '雪绒芝士', '', 48, '6枚入-玫瑰蜜桃味,6枚入-青梅味', '48', 'http://www.holiland.com/data/anatomy/201907/1562474189519495842.jpg', '', '', 'http://www.holiland.com/images/201907/goods_img/1144_P_1562474190887.jpg,http://www.holiland.com/images/201907/goods_img/1144_P_', 'http://www.holiland.com/images/upload/images/20190707/1562502923445155.jpg,http://www.holiland.com/images/upload/images/20190707', 'http://www.holiland.com/images/201907/goods_img/1144_G_1562475751584.jpg', ''),
+(30, '生吐司', '不支持7天无理由', 28, '', '0', 'http://www.holiland.com/data/anatomy/201901/1548877338311837328.jpg', '', '', 'http://www.holiland.com/images/201901/goods_img/953_P_1548877338626.jpg,http://www.holiland.com/images/201901/goods_img/953_P_15', 'http://www.holiland.com/images/upload/images/20190131/1548905843270365.jpg,http://www.holiland.com/images/upload/images/20190131', 'http://www.holiland.com/images/201901/goods_img/953_G_1548877338289.jpg', '');
 -- --------------------------------------------------------
 
 --
--- Table structure for table `series`
+-- 表的结构 `series`
 --
 
 CREATE TABLE `series` (
   `sid` int(12) NOT NULL,
   `stitle` varchar(128) NOT NULL,
-  `simg` varchar(128) NOT NULL,
-  `url` varchar(128) NOT NULL
+  `stitleE` varchar(128) NOT NULL,
+  `simgurl` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `series`
+-- 转存表中的数据 `series`
 --
 
-INSERT INTO `series` (`sid`, `stitle`, `simg`, `url`) VALUES
-(1, '经典', 'xxx', 'xxxx');
+INSERT INTO `series` (`sid`, `stitle`, `stitleE`, `simgurl`) VALUES
+(1, '经典系列', 'CLASSIC SERIES', 'http://www.holiland.com/data/afficheimg/1556050944618701139.jpg'),
+(2, '儿童系列', 'CHILDREN SERIES', 'http://www.holiland.com/data/afficheimg/1556053192285643115.jpg'),
+(3, '尊爱系列', 'RESPECT AND LOVE', 'http://www.holiland.com/data/afficheimg/1562625291693904523.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `service`
+-- 表的结构 `service`
 --
 
 CREATE TABLE `service` (
@@ -216,10 +267,19 @@ CREATE TABLE `service` (
   `serviceimg` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `service`
+--
+
+INSERT INTO `service` (`serviceid`, `servicetitle`, `servicetitleE`, `serviceimg`) VALUES
+(1, '配送包', 'DELIVERY PACKAGE', 'http://www.holiland.com/data/afficheimg/1528259724147241527.jpg'),
+(2, '店面形象', 'STORE IMAGES', 'http://www.holiland.com/data/afficheimg/1458096609174521318.jpg'),
+(3, '配送服务', 'DELIVERY SERVICE', 'http://www.holiland.com/data/afficheimg/1458039189338219135.jpg');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- 表的结构 `user`
 --
 
 CREATE TABLE `user` (
@@ -235,7 +295,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- 转存表中的数据 `user`
 --
 
 INSERT INTO `user` (`uid`, `phone`, `upwd`, `token`, `email`, `uname`, `gender`, `birthdaytype`, `birthday`) VALUES
@@ -256,7 +316,7 @@ INSERT INTO `user` (`uid`, `phone`, `upwd`, `token`, `email`, `uname`, `gender`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video`
+-- 表的结构 `video`
 --
 
 CREATE TABLE `video` (
@@ -265,139 +325,137 @@ CREATE TABLE `video` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `video`
+-- 转存表中的数据 `video`
 --
 
 INSERT INTO `video` (`vid`, `url`) VALUES
-(1, 'https://img.alicdn.com/imgextra/i2/2455221099/TB2ZMW8hHZnBKNjSZFGXXbt3FXa_!!2455221099.jpg'),
+(1, 'http://cloud.video.taobao.com//play/u/2455221099/p/1/e/6/t/1/50071310842.mp4'),
 (2, 'http://www.baidu.com'),
 (3, 'http://www.qq.com');
 
 --
--- Indexes for dumped tables
+-- 转储表的索引
 --
 
 --
--- Indexes for table `cakeseries`
+-- 表的索引 `cakeseries`
 --
 ALTER TABLE `cakeseries`
   ADD PRIMARY KEY (`cakeseriesid`);
 
 --
--- Indexes for table `carousel`
+-- 表的索引 `carousel`
 --
 ALTER TABLE `carousel`
   ADD PRIMARY KEY (`cid`);
 
 --
--- Indexes for table `cart`
+-- 表的索引 `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cartid`);
 
 --
--- Indexes for table `footer2`
---
-ALTER TABLE `footer2`
-  ADD PRIMARY KEY (`footer2id`);
-
---
--- Indexes for table `holiland_carousel_item`
+-- 表的索引 `holiland_carousel_item`
 --
 ALTER TABLE `holiland_carousel_item`
   ADD PRIMARY KEY (`caid`);
 
 --
--- Indexes for table `productcake`
+-- 表的索引 `productcake`
 --
 ALTER TABLE `productcake`
   ADD PRIMARY KEY (`pid`);
 
 --
--- Indexes for table `productwagashi`
+-- 表的索引 `productwagashi`
 --
 ALTER TABLE `productwagashi`
   ADD PRIMARY KEY (`pid`);
 
 --
--- Indexes for table `series`
+-- 表的索引 `series`
 --
 ALTER TABLE `series`
   ADD PRIMARY KEY (`sid`);
 
 --
--- Indexes for table `service`
+-- 表的索引 `service`
 --
 ALTER TABLE `service`
   ADD PRIMARY KEY (`serviceid`);
 
 --
--- Indexes for table `user`
+-- 表的索引 `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`uid`),
   ADD UNIQUE KEY `uname` (`uname`);
 
 --
--- Indexes for table `video`
+-- 表的索引 `video`
 --
 ALTER TABLE `video`
   ADD PRIMARY KEY (`vid`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `cakeseries`
+-- 使用表AUTO_INCREMENT `cakeseries`
 --
 ALTER TABLE `cakeseries`
-  MODIFY `cakeseriesid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cakeseriesid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `carousel`
+-- 使用表AUTO_INCREMENT `carousel`
 --
 ALTER TABLE `carousel`
   MODIFY `cid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `cart`
+-- 使用表AUTO_INCREMENT `cart`
 --
 ALTER TABLE `cart`
   MODIFY `cartid` int(128) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `footer2`
---
-ALTER TABLE `footer2`
-  MODIFY `footer2id` int(12) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `productcake`
+-- 使用表AUTO_INCREMENT `productcake`
 --
 ALTER TABLE `productcake`
-  MODIFY `pid` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `pid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `productwagashi`
+-- 使用表AUTO_INCREMENT `productwagashi`
 --
 ALTER TABLE `productwagashi`
-  MODIFY `pid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
--- AUTO_INCREMENT for table `series`
+-- 使用表AUTO_INCREMENT `series`
 --
 ALTER TABLE `series`
-  MODIFY `sid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `service`
+-- 使用表AUTO_INCREMENT `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceid` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `serviceid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `user`
+-- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
   MODIFY `uid` smallint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
 --
--- AUTO_INCREMENT for table `video`
+-- 使用表AUTO_INCREMENT `video`
 --
 ALTER TABLE `video`
-  MODIFY `vid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+  MODIFY `vid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
