@@ -65,7 +65,7 @@
             <!--微信-->
             <div>
                 <p>在微信上关注我们</p>
-                <img src="http://sinacloud.net/holiland/index/weixin.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807684&ssig=ZM9B%2B2UuAD" alt="微信">
+                <img src="http://www.holiland.com/statics/images/weixin.jpg" alt="微信">
             </div>
             </div>
             <p>Copyright2010 &copy;北京市好利来食品有限公司 版权所有</p>

@@ -14,32 +14,32 @@
             <td class="promptcenter"></td>
             <td class="td_title">用户名</td>
             <td class="td_input">
-              <input type="text" id="uname" placeholder="手机|邮箱"/>
+              <input type="text" autofocus id="uname" placeholder="手机|邮箱"  v-on:focus="phonefocus(1)" @blur="phonefocus(0)" v-model.trim="phone" />
             </td>
             <td class="prompt">
-              <span>请输入注册手机号码</span>
+              <span v-show="phonemsg.length>=1" v-text="phonemsg"></span>
             </td>
           </tr>
           <tr>
             <td class="promptcenter"></td>
             <td class="td_title">密&nbsp;码</td>
             <td class="td_input_upwd">
-              <input type="password" placeholder="请输入6-20位字符"/>
-              <a href="#">忘记密码？</a>
+              <input type="password" placeholder="请输入6-20位字符" v-on:focus="pwdfocus(1)" @blur="pwdfocus(0)" v-model.trim="pwd" />
+              <router-link to="">忘记密码？</router-link>
             </td>
             <td class="prompt">
-              <span>请输入注册手机号码</span>
+              <span  v-show="pwdmsg.length>=1"  v-text="pwdmsg"></span>
             </td>
           </tr>
           <tr>
             <td class="promptcenter"></td>
             <td colspan="2" class="submit">
-              <a href="#">
+              <span @clcik="submit">
                 登&nbsp;录
-              </a>
-              <a href="#">
+              </span>
+              <router-link to="/reg">
                 免费注册
-              </a>
+              </router-link>
             </td>
             <td class="prompt">
               <p></p>
@@ -53,7 +53,31 @@
 </template>
 <script>
 export default {
-    data(){return{}}
+    data(){return{
+        phone:'',
+        phonemsg:'',
+        pwd:'',
+        pwdmsg:''
+    }},
+    methods:{
+        submit(){
+            
+        },
+        phonefocus(n){
+            if(n==1){
+                this.phonemsg="请您确认填写您的邮箱或手机号"
+            }else{
+                this.phonemsg=""
+            }
+        },
+        pwdfocus(n){
+            if(n==1){
+                this.pwdmsg='密码必须输入6-20位字符'
+            }else{
+                this.pwdmsg=''
+            }
+        },
+    }
 }
 </script>
 <style scoped>
@@ -109,7 +133,7 @@ input{
     background-color: #fff;
     text-align: center;
 }
-.submit>a:first-child{
+.submit>span:first-child{
     display: inline-block;
     height:40px;
     width: 190px;
@@ -137,7 +161,7 @@ input{
 .prompt{
     background-color: #ffffff;
     font-size:13px;
-    width:180px;
+    width:242px;
     /*display: none;*/
 }
 .prompt>span{
@@ -148,7 +172,7 @@ input{
 }
 .promptcenter{
     background-color: #ffffff;
-    width:180px;
+    width:242px;
 }
 .td_input_upwd>input{
     float: left;

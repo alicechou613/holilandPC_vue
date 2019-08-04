@@ -2,15 +2,15 @@
     <div>
         <div class="body_cakeseries">
             <div class="div_series">
-                <router-link to="" class="a_series">
+                <router-link to="/classicSeries" class="a_series">
                 </router-link>
             </div>
             <div class="div_series">
-                <router-link to="" class="a_series" id="a_series2">
+                <router-link to="/childrenSeries" class="a_series" id="a_series2">
                 </router-link>
             </div>
             <div class="div_series">
-                <router-link to="" class="a_series" id="a_series3">
+                <router-link to="/starProducts" class="a_series" id="a_series3">
                 </router-link>
             </div>
         </div>

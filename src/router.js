@@ -6,6 +6,7 @@ import aboutus from './views/aboutus.vue'
 import reg from './views/reg.vue'
 import login from './views/login.vue'
 import cart from './views/cart.vue'
+import search from './views/search.vue'
 import allproducts from './views/allproducts.vue'
 import wagashi from './views/wagashi.vue'
 import detail from './views/detail.vue'
@@ -36,6 +37,7 @@ export default new Router({
     {path: '/reg',component: reg},//注册
     {path: '/login',component: login},//注册
     {path: '/cart',component: cart},//购物车
+    {path: '/search/:search_input',component: search},//购物车
     {path: '/cakeSeries',component: cakeSeries},//蛋糕系列
     {path: '/classicSeries',component: classicSeries},//经典系列
     {path: '/childrenSeries',component: childrenSeries},//儿童系列

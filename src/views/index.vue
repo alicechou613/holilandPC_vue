@@ -41,8 +41,8 @@
         </div>
         <!-- 视频 -->
         <div class="div_video">
-        <img src="http://sinacloud.net/holiland/index/1556240157651442682.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807684&ssig=OTIWyirOaH" alt="" class="img_video">
-        <video src="http://cloud.video.taobao.com//play/u/2455221099/p/1/e/6/t/1/50071310842.mp4" controls type="video/mp4" poster="posterimage.jpg" class="video_video">
+        <img src="http://www.holiland.com/data/afficheimg/1556240157651442682.jpg" alt="" class="img_video">
+        <video :src="videourl" controls type="video/mp4" poster="posterimage.jpg" class="video_video">
         </video>
         </div>
         <!-- 服务与介绍 -->

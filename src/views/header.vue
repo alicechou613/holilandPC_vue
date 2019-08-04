@@ -45,17 +45,17 @@
                     <span class="span_nav">蛋糕系列</span>
                   </router-link>
                   <ul class="ul_cake">
-                    <li>
+                    <li class="router_cake_first router_cake">
                       <router-link to="/classicSeries">
                         经典系列
                       </router-link>
                     </li>
-                    <li>
+                    <li class="router_cake">
                       <router-link to="/childrenSeries">
                         儿童系列
                       </router-link>
                     </li>
-                    <li>
+                    <li class="router_cake">
                       <router-link to="/starProducts">
                         尊爱系列
                       </router-link>
@@ -86,8 +86,8 @@
         </div>
         <div class="div_search">
           <div class="div_input_search">
-            <input type="text" id="search" class="input_search">
-            <img src="../assets/index/search_icon.png" alt="搜索" class="img_search">
+            <input type="text" id="search" class="input_search" v-model="search_input">
+            <img src="../assets/index/search_icon.png" class="img_search" @click="search_img()"> 
           </div>
         </div>
       </div>
@@ -101,9 +101,15 @@
      return {
          isLogin:true,
         uname:"dingding",
-
+        search_input:''
      }
    },
+   //路由跳转时若已跳转search页。在继续跳转search页的时候刷新页面。
+   watch: {
+    '$route' (to, from) {
+        this.$router.go(0);
+    }
+},
    methods:{
         login(){
             this.isLogin=true
@@ -113,6 +119,21 @@
         },
         a_series(){
             console.log(222)
+        },
+        search_img(){
+          console.log(11111)
+          // console.log(this.search_input.trim())
+          if(!this.search_input.trim()){
+            alert("请输入搜索关键字")
+          }else{
+            // console.log(`/search/${this.search_input}`)
+            this.$router.push(`/search/${this.search_input}`)
+            // console.log(this.search_input)
+            // this.axios.get("/api/search",{params:{"titleSearch":this.search_input}}).then(result=>{
+            //   console.log(1)
+            //   console.log(result.data.data)
+            // })
+          }
         },
         
     }
@@ -231,11 +252,11 @@ a{
 #li_cake:hover .ul_cake{
   display: block;
 }
-.ul_cake li p{
+.router_cake{
     padding:9px 0px;
     font-size:13px;
 }
-.ul_cake li p:first-child{
+.router_cake_first{
     padding-top:10px;
 }
 
@@ -265,22 +286,26 @@ a{
 .input_search{
   display: inline-block;
   color: #999;
-  width: 87px;height: 18px;
+  width: 85px;height: 18px;
   background: #fff;
   right:2px;
   top:0px;
-  padding-left: 18px;
+  padding-left: 20px;
+  z-index:1;
 }
 .img_search{
   position: absolute;
   top:1px;
   left: 16px;
   width: 18px;height: 18px;
+  cursor: pointer;
+  z-index:10;
 }
 .div_input_search{
   border: 1px solid #6bc4df;
   width:105px;
   height:18px;
   margin-left: 14px;
+  z-index:0;
 }
 </style>

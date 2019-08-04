@@ -13,8 +13,8 @@
                         官网营业资质
                     </p>  
                 </div>
-                <img src="http://sinacloud.net/holiland/aboutus/1520477798662187.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=MEDLtHs%2Bo6" alt="">
-                <img src="http://sinacloud.net/holiland/aboutus/1520477800407205.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=YnHa%2FXVO0t" alt="" style="margin-top:-5px;">
+                <img src="http://www.holiland.com/images/upload/images/20180308/1520477798662187.jpg" alt="">
+                <img src="http://www.holiland.com/images/upload/images/20180308/1520477800407205.jpg" alt="" style="margin-top:-5px;">
             </div>
         </div>
     </div>

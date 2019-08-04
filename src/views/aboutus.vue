@@ -7,7 +7,7 @@
         <span class="head_line head_line_right"></span>
       </div>
       <div class="">
-        <img src="http://sinacloud.net/holiland/aboutus/1544409927136109.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=QHpfR14kTf" alt="关于我们">
+        <img src="http://www.holiland.com/images/upload/images/20181210/1544409927136109.jpg" alt="关于我们">
       </div>
     </div>
 </template>

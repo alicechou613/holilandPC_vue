@@ -89,8 +89,8 @@
         </p>
         <br>
         <p style="text-indent: 25px">1、发展主线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2､其他发展方向</p>
-        <img src="http://sinacloud.net/holiland/aboutus/1461639473787824.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=omIlVoYndy" alt="">
-        <img src="http://sinacloud.net/holiland/aboutus/1536579920242692.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=J0xEtZfEPg" alt="">
+        <img src="http://www.holiland.com/images/upload/images/20160426/1461639473787824.jpg" alt="">
+        <img src="http://www.holiland.com/images/upload/images/20180910/1536579920242692.jpg" alt="">
         </div>
        
       </div>

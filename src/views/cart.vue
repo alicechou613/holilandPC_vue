@@ -27,9 +27,9 @@
                     <td>39积分</td>
                     <td>￥39.00</td>
                     <td class="td_btn">
-                        <button @click="minus">-</button>
-                        <input type="text" v-model="count" style="margin-left: 8px;"/>
-                        <button @click="add" style="margin-left: 8px;">+</button>
+                        <button @click="count(-1,1)">-</button>
+                        <span v-html="count1" style="margin-left: 8px;"/>
+                        <button @click="count(1,1)" style="margin-left: 8px;">+</button>
                     </td>
                     <td>￥39.00</td>
                     <td>
@@ -75,7 +75,18 @@
 </template>
 <script>
 export default {
-    data(){return{}}
+    data(){return{
+        count1:12
+    }},
+    methods:{
+        count(c,n){
+            if(c==-1&&this.count1==1){
+                //删除商品
+            }else{
+                this.count1+=c;
+            }
+        }
+    }
 }
 </script>
 <style scoped>

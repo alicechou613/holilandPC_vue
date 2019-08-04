@@ -7,11 +7,10 @@
           </a>
           <a href="#" class="a_title_product">                
               <p class="p_product">生吐司</p>
-              <p class="p_summary_product">不支持七天无理由</p>
               <b class="b_price_product">&yen;25.00</b>
           </a>
         </div>
-       
+        
       </div>
     </div>
 </template>
@@ -19,6 +18,20 @@
 export default {
     data(){
         return{}
+    },
+     methods:{
+        load(){
+            console.log(1)
+            this.axios.get("/api/wagashiSingle").then(result=>{
+
+                console.log(2)
+                console.log(result.data.data)
+                // this.cakeSingle=result.data.data;
+                })
+        }
+    },
+    created(){
+        this.load();
     }
 }
 </script>

@@ -13,7 +13,7 @@
                 加盟维权
              </p>  
         </div>
-        <img src="http://sinacloud.net/holiland/aboutus/1499998054973007.jpg?KID=sina,2f2aez4Edrw2kGVHCHF9&Expires=1564807001&ssig=jWuKEu2h9r" alt="">
+        <img src="http://www.holiland.com/images/upload/images/20170714/1499998054973007.jpg" alt="">
     </div>
 </div>
     </div>
