@@ -1,31 +1,7 @@
 <template>
     <div>       
          <!-- 轮播图 -->
-        <div class="div_banner">
-        <!--轮播图片-->
-        <div class="div_banner_img">
-            <div class="div_div_banner_img active">
-            <img src="../assets/index/1457047833194068991.jpg" alt="" class="img_banner">
-            </div>
-            <div class="div_div_banner_img">
-            <img src="../assets/index/1457047833194068991.jpg" alt="" class="img_banner">
-            </div>
-            <div class="div_div_banner_img">
-            <img src="../assets/index/1457047833194068991.jpg" alt="" class="img_banner">
-            </div>
-            <div class="div_div_banner_img">
-            <img src="../assets/index/1457047833194068991.jpg" alt="" class="img_banner">
-            </div>
-        </div>
-        <!--左右箭头-->
-        <p class="prev_banner" style="display:inline">
-            <span class="prev_banner_icon"></span>
-        </p>
-        <p class="next_banner" style="display:inline">
-            <span class="next_banner_icon"></span>
-        </p>
-        <!--轮播指示器-->
-        </div>
+        <carousel> </carousel>     
         <!-- 类型、分类、三个系列 -->
         <div class="div_series">
         <!-- 经典系列 -->
@@ -58,6 +34,7 @@
     </div>
 </template>
 <script>
+import carousel from "../components/carousel.vue"
 export default {
   data() {
     return {
@@ -69,7 +46,6 @@ export default {
   },
   methods: {
     load() {
-      console.log(111);
       //获取视频数据
        this.axios.get("/api/video",{
               params: {
@@ -83,27 +59,24 @@ export default {
         //    console.log(result.data.data)
            this.service=result.data.data.reverse();
       })
-      console.log(4)
       //获取蛋糕系列数据
         this.axios.get("/api/series").then(result=>{
         //    console.log(result.data.data)
            this.series=result.data.data.reverse();
       })
-      //获取轮播图数据
-        this.axios.get("/api/banner").then(result=>{
-           console.log(result.data.data)
-           this.banner=result.data.data;
-        })
     }
   },
   created() {
     this.load();
+  },
+  components:{
+      carousel
   }
 }
 </script>
 
 <style  scoped>
-
+/*轮播*/
 .div_banner{
     width:996px;height:450px;
     position:relative;
@@ -151,7 +124,7 @@ export default {
     background-position: -2px -41px;
     right:-92.4px;
 }
-
+/***/
 .div_series{
   width:996px;height:270px;
   display:flex;

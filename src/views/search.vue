@@ -40,7 +40,6 @@ export default {
               this.search_null = false;
               this.$router.push("/allproducts");
             }, 3000);
-            
           }
         });
     }
