@@ -25,7 +25,7 @@
 						<span v-show="phonemsg.length>=1">{{phonemsg}}</span>
 					</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td class="promptcenter"></td>
 					<td class="td_title">验证码</td>
 					<td class="td_input">
@@ -34,7 +34,7 @@
 					<td class="prompt">
 						<span v-show="code1msg.length>=1">{{code1msg}}</span>
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td class="promptcenter"></td>
 					<td class="td_title">短信验证码</td>
@@ -50,7 +50,7 @@
 					<td class="promptcenter"></td>
 					<td class="td_title">密码</td>
 					<td class="td_input">
-						<input type="password" v-on:focus="pwdfocus(1)" @blur="pwdfocus(0)" v-model.trim="pwd"/>
+						<input type="password" v-on:focus="pwdfocus(1)" @blur="pwdfocus(0)" v-model.trim="pwd" />
 					</td>
 					<td class="prompt">
 						<span  v-show="pwdmsg.length>=1">{{pwdmsg}}</span>
@@ -76,17 +76,24 @@
 					<td class="promptcenter"></td>
 					<td class="td_title">确认密码</td>
 					<td class="td_input">
-                        <input type="password" v-on:focus="repwdfocus(1)" @blur="repwdfocus(0)" v-model.trim="repwd"/>
+                        <input type="password" v-on:focus="repwdfocus(1)" @blur="repwdfocus(0)" v-model.trim="repwd" />
                     </td>
 					<td class="prompt">
 						<span v-show="repwdmsg.length>=1">{{repwdmsg}}</span>
 					</td>
 				</tr>
+        <tr>
+					<td class="promptcenter"></td>
+					<td class="td_code" colspan="2"></td>
+					<td class="prompt">
+						<span style="display:none;"></span>
+					</td>
+				</tr>
 				<tr>
 					<td class="promptcenter"></td>
 					<td colspan="2" class="checkbox">
-						<input type="checkbox"/>
-						<a href="#">我已阅读并接受“服务条款”</a>
+						<input type="checkbox" v-model="check" />
+						<router-link to="">我已阅读并接受“服务条款”</router-link>
 					</td>
 					<td class="prompt">
 					</td>
@@ -113,38 +120,48 @@ export default {
     return {
       phone: "",
       phonemsg: "",
-      code1: "",
-      code1msg: "",
+      msg: "",
+      // code1: "",
+      // code1msg: "",
       code2: "",
       code2msg: "",
       pwd: "",
       pwdmsg: "",
       repwd: "",
-      repwdmsg: ""
+      repwdmsg: "",
+      check: "false"
     };
   },
   methods: {
-    // submit(){
-    //     console.log(this.uname,this.upwd,this.reupwd)
-    //     let data = {"phone":"1234","upwd":"yyyy"};
-    //     this.axios.post("http://192.168.3.39:80/api/register",data).then(result=>{
-    //         console.log(result)
-    //     })
-    // },
     phonefocus(n) {
       if (n == 1) {
         this.phonemsg = "请输入您的手机号";
       } else {
-        this.phonemsg = "";
+        //  var data=this.qs.stringify({ phone: '15175215660'})
+        var data = this.qs.stringify({ phone: this.phone });
+        this.axios
+          .post("/api/checkLogin", data)
+          .then(result => {
+            // console.log(result.data.message);
+            this.msg = result.data.message;
+          })
+          .catch(err => {
+            // console.log(err);
+          });
+        if (this.msg === "还未注册") {
+          this.phonemsg = "此手机号可以使用";
+        } else if (this.msg === "已经注册过了") {
+          this.phonemsg = "此手机号已被注册";
+        }
       }
     },
-    code1focus(n) {
-      if (n == 1) {
-        this.code1msg = "请输入验证码";
-      } else {
-        this.code1msg = "";
-      }
-    },
+    // code1focus(n) {
+    //   if (n == 1) {
+    //     this.code1msg = "请输入验证码";
+    //   } else {
+    //     this.code1msg = "";
+    //   }
+    // },
     code2focus(n) {
       if (n == 1) {
         this.code2msg = "请输入短信验证码";
@@ -167,63 +184,62 @@ export default {
       }
     },
     submit() {
-      console.log(1);
-      // if (!/^[1]([3-9])[0-9]{9}$/.test(this.phone)) {
-      //   this.phonemsg = "手机格式错误";
-      // }
-      console.log(2);
-//
+      //验证手机格式是否正确
+      if (!/^[1]([3-9])[0-9]{9}$/.test(this.phone)) {
+        alert("手机格式错误");
+        this.phonemsg = "手机格式错误";
+        return;
+      }
+      //验证密码位数是否合格
+      if (this.pwd.length < 6 || this.pwd.length > 20) {
+        alert("密码必须输入6-20位字符");
+        this.pwdmsg = "密码必须输入6-20位字符";
+        return;
+      }
+      //验证两次密码是否一致
+      if (this.pwd !== this.repwd) {
+        alert("两次密码不一致，请重新输入");
+        this.repwdmsg = "两次密码不一致";
+        return;
+      }
+      // return
+
       // api/register phone   upwd
       // api/login  phone   upwd
       // api/checkLogin  参数  phone
       // console.log(this.phone)
       // var obj = { phone: this.phone };
-      
-        // .post("/api/checkLogin",{ 'phone': '15175215660'})
-        // .post("/api/checkLogin",{ phone: '15175215660'})
-        // .post("/api/checkLogin",{data:{ phone: '15175215660'}})
-        // .post("/api/checkLogin")+
 
-        var data=this.qs.stringify({ phone: '15175215660'})
+      //复选框是否同意。
+      if (this.check == "ture") {
+        alert("请阅读并接受“服务条款”");
+        return;
+      }
+      var data = this.qs.stringify({ phone: this.phone });
       this.axios
-        .post("/api/checkLogin",data)
+        .post("/api/checkLogin", data)
         .then(result => {
-          console.log(4)
-          console.log(result);
+          // console.log(result.data.message);
+          this.msg = result.data.message;
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
         });
-        console.log(5)
-      // this.axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-      //   this.axios({
-      //         method:'post',
-      //         url:'http://192.168.3.39:80/api/checkLogin',
-      //         data:this.qs.stringify({
-      //               phone: '13552280894'
-      //         })
-      //     }).then((response) =>{
-      //         console.log(response)
-      //     }).catch((error) =>{
-      //         console.log(error)
-      //     })
-
-        // .then(function(response) {
-        //                 console.log(response);
-        //             }).catch(function(error) {
-        //                 console.log(error);
-        //             })
-    
-            
-      console.log(3);
-      // if(this.qwd.length<6||this.qwd.length>20){
-      //     this.qwd='密码必须输入6-20位字符'
-      // }
-      console.log(4);
-      // if(this.qwd!==this.reqwd){
-      //     this.reqwdmsg='两次密码不一致'
-      // }
-      // return
+      if (this.msg === "还未注册") {
+        this.phonemsg = "此手机号可以使用";
+      } else if (this.msg === "已经注册过了") {
+        this.phonemsg = "此手机号已被注册";
+      }
+      var data = this.qs.stringify({ phone: this.phone, upwd: this.pwd });
+      this.axios.post("/api/register", data).then(res => {
+        console.log(333)
+        console.log(res);
+        if(res.data.message=='注册成功'){
+          //跳转前把check调回false 
+          this.check='false'
+          this.$router.push('/')
+        }
+      }).catch(err=>{console.log(err)})
     }
   }
 };
@@ -303,6 +319,10 @@ td {
   width: 70px;
   padding: 0 3px 0 10px;
   text-align: center;
+}
+.td_code {
+  height: 40px;
+  /* width: 70px; */
 }
 .td_input {
   width: 208px;

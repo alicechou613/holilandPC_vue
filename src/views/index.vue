@@ -18,7 +18,7 @@
         <!-- 视频 -->
         <div class="div_video">
         <img src="http://www.holiland.com/data/afficheimg/1556240157651442682.jpg" alt="" class="img_video">
-        <video :src="videourl" controls type="video/mp4" poster="posterimage.jpg" class="video_video">
+        <video :src="videourl" controls type="video/mp4" :poster="videoimgurl" class="video_video">
         </video>
         </div>
         <!-- 服务与介绍 -->
@@ -39,6 +39,7 @@ export default {
   data() {
     return {
         videourl:'',
+        videoimgurl:'',
         service:[],
         series:[],
         banner:[]
@@ -53,6 +54,7 @@ export default {
               }}).then(result=>{
         //   console.log(result.data)
           this.videourl=result.data.data[0].url;
+          this.videoimgurl=result.data.data[0].img_url;
       }).catch((err)=>{console.log(err)})
       //获取服务数据
         this.axios.get("/api/service").then(result=>{
