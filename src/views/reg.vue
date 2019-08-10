@@ -205,7 +205,7 @@ export default {
       // return
 
       // api/register phone   upwd
-      // api/login  phone   upwd
+      
       // api/checkLogin  参数  phone
       // console.log(this.phone)
       // var obj = { phone: this.phone };

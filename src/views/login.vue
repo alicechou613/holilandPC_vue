@@ -34,7 +34,7 @@
           <tr>
             <td class="promptcenter"></td>
             <td colspan="2" class="submit">
-              <span @clcik="submit">
+              <span @click="submit">
                 登&nbsp;录
               </span>
               <router-link to="/reg">
@@ -57,11 +57,21 @@ export default {
         phone:'',
         phonemsg:'',
         pwd:'',
-        pwdmsg:''
+        pwdmsg:'',
+        loginStatus:''
     }},
     methods:{
         submit(){
-            
+            // api/login  phone   upwd
+            var data=this.qs.stringify({phone:this.phone,upwd:this.pwd})
+            this.axios.post("/api/login",data).then(res=>{
+                console.log(res)
+                this.loginStatus=res.data.message
+                console.log(this.loginStatus)
+                if(this.loginStatus=='登录成功'){
+                    this.$router.go(-1)
+                }
+            }).catch(err=>{console.log(err)})
         },
         phonefocus(n){
             if(n==1){
@@ -143,6 +153,7 @@ input{
     font-weight: bold;
     color:#fff;
     text-decoration:none;
+    cursor:pointer;
 }
 .submit>a:last-child{
     display: inline-block;
