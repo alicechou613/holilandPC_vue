@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import qs from 'qs'
+Vue.prototype.qs=qs
 //引入axios
 import axios from './axios'
 Vue.config.productionTip = false

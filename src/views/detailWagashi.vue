@@ -5,26 +5,23 @@
         <div class="div_top">
         <!--商品轮播图-->
         <div class="carousel">
-            <div class="div_carousel">
+            <div class="div_carousel" :class="div_width">
             <!--轮播图-->
                 <div class="carousel_inner">
                     <div class="div_img">
-                        <!-- <img :src="elem" alt="" class="img_carousel" v-for="(elem,i) of img_lg" :key="i" /> -->
+                        <img :src="elem" alt="" class="img_carousel" v-for="(elem,i) of img_lg" :key="i" />
                         <!-- <img :src="img_lg[0]" alt="" class="img_carousel" /> -->
-                        <img :src="img_lg[1]" alt="" class="img_carousel" />
+                        <!-- <img :src="img_lg[1]" alt="" class="img_carousel" /> -->
                     </div>
                 </div>
             <!--左右箭头-->
-                <a href="" class="a_prev a_prev_left">
-                </a>
-                <a href="" class="a_prev a_prev_right">
-                </a>
+                <span class="a_prev a_prev_left" @click="move(-1)">
+                </span>
+                <span class="a_prev a_prev_right" @click="move(-1)">
+                </span>
                 <!--轮播指示器-->
                 <ul class="carousel_indicatos">
-                    <li class="li_active"></li>
-                    <li class=""></li>
-                    <li class=""></li>
-                    <li class=""></li>
+                    <li :class="i==lg?'li_active':''" v-for="(elem,i) of img_lg" :key="i" @click="moveTo(i)"></li>
                 </ul>
             </div>
         </div>
@@ -47,9 +44,9 @@
             </div>
             <div class="div_btn  btn_left btn_padding">
                 <span class="a_btn btn_count">数量</span>
-                <button>-</button>
-                <span class="span_count">5</span>
-                <button>+</button>
+                <button @click="btncount(-1)">-</button>
+                <span class="span_count">{{count}}</span>
+                <button @click="btncount(1)">+</button>
             </div>
             <div class="div_btn btn_left btn_yellow">
                 <div class="a_btn a_buy">立即购买</div>
@@ -67,11 +64,31 @@
 export default {
     data(){return{
         wagashi:{},
+        div_width:{},
         img_lg:[],
         img_body:[],
-        pattr:[]
+        pattr:[],
+        count:1,//商品数量
+        lg:0//左边图显示的第几张
     }},
     methods:{
+        move(n){
+            if(n==-1&&lg>=1){
+                this.lg+=n
+            }else if(n==1&&lg<=this.img_lg.length-1){
+                this.lg+=n
+            }
+        },
+        moveTo(i){
+            this.lg=i;
+        },
+        btncount(n){
+            if(n==-1&&this.count==1){
+                return
+            }else{
+                this.count+=n
+            }
+        },
         load(){
             this.axios.get("/api/wagashi",{
               params: {
@@ -89,6 +106,18 @@ export default {
     },
     created(){
         this.load()
+    },
+    computed:{
+        img_lgStyle(){
+            var marginLeft=-this.lg*485+'px';
+            return marginLeft
+        }
+    },
+    watch:{
+        div_width(){
+            // "width:"+485*this.img_lg.length+"px"
+        //    return width:970px;
+            }
     }
 
 }
@@ -109,6 +138,7 @@ export default {
 }
 .div_carousel{
     position: relative;
+
     height:485px;
 }
 .carousel_inner{
@@ -118,6 +148,7 @@ export default {
 .div_img{width:100%}
 .img_carousel{
     width:100%;
+    float: left;
 }
 .div_divdetail{
     width:485px;
@@ -196,6 +227,7 @@ h2{
     line-height: 25px;
     background: #87d0e3;
     margin:0 18px;
+    outline: none;
 }
 select{
     width:142px;

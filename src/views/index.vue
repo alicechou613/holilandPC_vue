@@ -7,12 +7,12 @@
         <!-- 经典系列 -->
         <!-- 儿童系列 -->
         <!-- 尊爱系列 -->
-            <div class="a_img_series" v-for="(elem,i) of series" :key="i">
+            <div class="a_img_series" v-for="(elem,i) of series" :key="'seriesimg'+i">
                 <img :src="elem.simgurl" alt="" class="img_series">
             </div>
-            <div class="a_series" v-for="(elem,i) of series" :key="i">
-                <p class="p_series p_chinsesseries">{{elem.stitle}}</p>
-                <p class="p_series">{{elem.stitleE}}</p>
+            <div class="a_series" v-for="(elem,i) of series" :key="'seriesp'+i">
+                <p class="p_series p_chinsesseries" v-text="elem.stitle"></p>
+                <p class="p_series" v-text="elem.stitleE"></p>
             </div>
         </div>
         <!-- 视频 -->
@@ -23,10 +23,10 @@
         </div>
         <!-- 服务与介绍 -->
         <div class="div_series">
-            <div class="a_img_series" v-for="(elem,i) of service" :key="i">
+            <div class="a_img_series" v-for="(elem,i) of service" :key="'seriesimg'+i">
                 <img :src="elem.serviceimg" alt="" class="img_series">
             </div>
-            <div class="a_series"  v-for="(elem,i) of service" :key="i">
+            <div class="a_series"  v-for="(elem,i) of service" :key="'seriesp'+i">
                 <p class="p_series p_chinsesseries">{{elem.servicetitle}}</p>
                 <p class="p_series">{{elem.servicetitleE}}</p>
                 </div>
@@ -53,7 +53,7 @@ export default {
               }}).then(result=>{
         //   console.log(result.data)
           this.videourl=result.data.data[0].url;
-      })
+      }).catch((err)=>{console.log(err)})
       //获取服务数据
         this.axios.get("/api/service").then(result=>{
         //    console.log(result.data.data)
@@ -64,6 +64,12 @@ export default {
         //    console.log(result.data.data)
            this.series=result.data.data.reverse();
       })
+    //   测试接口。天气的
+    //   this.axios.get("https://www.tianqiapi.com/api/?version=v1&cityid=101110101").then(result=>{
+    //       console.log(result)
+    //   })
+  
+    
     }
   },
   created() {

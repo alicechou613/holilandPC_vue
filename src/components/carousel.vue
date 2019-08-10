@@ -29,7 +29,7 @@
 export default {
   data() {
     return {
-      bannerimg: [],
+      bannerimg: [{cimgurl:''}],
       ulClass: {
         //定义所有图片的容器div上是否有transition
         hasTrans: true //在css中提前定义好的样式类，其中包含transition属性
@@ -103,6 +103,8 @@ export default {
       //获取轮播图数据
       this.axios.get("/api/banner").then(result => {
         this.bannerimg = result.data.data;
+        // console.log(this.bannerimg)
+        // console.log(this.bannerimg[0].cimgurl,333)
       });
     }
   },

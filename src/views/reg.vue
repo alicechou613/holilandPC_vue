@@ -168,27 +168,53 @@ export default {
     },
     submit() {
       console.log(1);
-      if (!/^[1]([3-9])[0-9]{9}$/.test(this.phone)) {
-        this.phonemsg = "手机格式错误";
-      }
+      // if (!/^[1]([3-9])[0-9]{9}$/.test(this.phone)) {
+      //   this.phonemsg = "手机格式错误";
+      // }
       console.log(2);
 //
       // api/register phone   upwd
       // api/login  phone   upwd
       // api/checkLogin  参数  phone
-      console.log(this.phone)
-      var obj = { phone: this.phone };
-      console.log(this.phone)
+      // console.log(this.phone)
+      // var obj = { phone: this.phone };
+      
+        // .post("/api/checkLogin",{ 'phone': '15175215660'})
+        // .post("/api/checkLogin",{ phone: '15175215660'})
+        // .post("/api/checkLogin",{data:{ phone: '15175215660'}})
+        // .post("/api/checkLogin")+
+
+        var data=this.qs.stringify({ phone: '15175215660'})
       this.axios
-        .post("/api/checkLogin", obj)
+        .post("/api/checkLogin",data)
         .then(result => {
-          console.log(5);
+          console.log(4)
           console.log(result);
-          console.log(6);
         })
         .catch(err => {
           console.log(err);
         });
+        console.log(5)
+      // this.axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+      //   this.axios({
+      //         method:'post',
+      //         url:'http://192.168.3.39:80/api/checkLogin',
+      //         data:this.qs.stringify({
+      //               phone: '13552280894'
+      //         })
+      //     }).then((response) =>{
+      //         console.log(response)
+      //     }).catch((error) =>{
+      //         console.log(error)
+      //     })
+
+        // .then(function(response) {
+        //                 console.log(response);
+        //             }).catch(function(error) {
+        //                 console.log(error);
+        //             })
+    
+            
       console.log(3);
       // if(this.qwd.length<6||this.qwd.length>20){
       //     this.qwd='密码必须输入6-20位字符'

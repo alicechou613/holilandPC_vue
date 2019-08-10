@@ -8,13 +8,13 @@ import axios from "axios"
 // axios.defaults.withCredentials=true
 //4：设置请求基础路径
 // axios.defaults.baseURL="http://127.0.0.1:3000"
-axios.defaults.baseURL="http://192.168.3.39:80"
+// axios.defaults.baseURL="http://192.168.3.39:80"
+axios.defaults.baseURL="http://localhost:80"
 // axios.defaults.baseURL="https://www.tianqiapi.com"
 //5：将axios注册vue实例
 Vue.prototype.axios=axios
 //6：在main.js引入axios.js文件
 // import axios from "axios";
-// import qs from "qs";
 // import store from './store'
 
 // const Axios=axios.create({
