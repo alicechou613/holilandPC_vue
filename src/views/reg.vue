@@ -184,6 +184,7 @@ export default {
       }
     },
     submit() {
+      
       //验证手机格式是否正确
       if (!/^[1]([3-9])[0-9]{9}$/.test(this.phone)) {
         alert("手机格式错误");
@@ -215,32 +216,29 @@ export default {
         alert("请阅读并接受“服务条款”");
         return;
       }
-      var data = this.qs.stringify({ phone: this.phone });
-      this.axios
-        .post("/api/checkLogin", data)
-        .then(result => {
-          // console.log(result.data.message);
-          this.msg = result.data.message;
-        })
-        .catch(err => {
-          // console.log(err);
-        });
-      if (this.msg === "还未注册") {
-        this.phonemsg = "此手机号可以使用";
-      } else if (this.msg === "已经注册过了") {
-        this.phonemsg = "此手机号已被注册";
+      this.phonefocus(0);
+      if(this.phonemsg =="此手机号已被注册"){
+        alert('此手机号已被注册')
+        return
+      }else{
+    // var data = this.qs.stringify({ phone: this.phone});
+          var data = this.qs.stringify({ phone: this.phone, upwd: this.pwd });
+          this.axios.post("/api/register", data).then(res => {
+            console.log(333)
+            console.log(res);
+            if(res.data.message=='注册成功'){
+              //跳转前把check调回false 
+              this.check='false'
+              this.$router.push('/')
+            }else{
+              alert('此手机号已被注册')
+            }
+          }).catch(err=>{console.log(err)})
       }
-      var data = this.qs.stringify({ phone: this.phone, upwd: this.pwd });
-      this.axios.post("/api/register", data).then(res => {
-        console.log(333)
-        console.log(res);
-        if(res.data.message=='注册成功'){
-          //跳转前把check调回false 
-          this.check='false'
-          this.$router.push('/')
-        }
-      }).catch(err=>{console.log(err)})
+    
+      
     }
+
   }
 };
 </script>

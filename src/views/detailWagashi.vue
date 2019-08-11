@@ -5,11 +5,11 @@
         <div class="div_top">
         <!--商品轮播图-->
         <div class="carousel">
-            <div class="div_carousel" :class="div_width">
+            <div class="div_carousel">
             <!--轮播图-->
-                <div class="carousel_inner">
-                    <div class="div_img">
-                        <img :src="elem" alt="" class="img_carousel" v-for="(elem,i) of img_lg" :key="i" />
+                <div class="carousel_inner" :style="styles">
+                    <div class="div_img" v-for="(elem,i) of img_lg" :key="i" >
+                        <img :src="elem" alt="" class="img_carousel"/>
                         <!-- <img :src="img_lg[0]" alt="" class="img_carousel" /> -->
                         <!-- <img :src="img_lg[1]" alt="" class="img_carousel" /> -->
                     </div>
@@ -17,7 +17,7 @@
             <!--左右箭头-->
                 <span class="a_prev a_prev_left" @click="move(-1)">
                 </span>
-                <span class="a_prev a_prev_right" @click="move(-1)">
+                <span class="a_prev a_prev_right" @click="move(1)">
                 </span>
                 <!--轮播指示器-->
                 <ul class="carousel_indicatos">
@@ -34,7 +34,7 @@
             <h2 class="h2_price" v-text="`￥${wagashi.price.toFixed(2)}`"></h2>
             <div class="div_btn  btn_left btn_padding">
                 <span class="a_btn">规格</span>
-                <select name="attr" id="attr">
+                <select name="attr" class="select_attr" id="attr">
                     <option value="-1">请选择</option>
                     <option :value="i" v-for="(elem,i) of pattr" :key="i">{{elem}}</option>
                 </select>
@@ -63,24 +63,54 @@
 <script>
 export default {
     data(){return{
-        wagashi:{},
-        div_width:{},
+        wagashi:{price:0},
         img_lg:[],
         img_body:[],
         pattr:[],
         count:1,//商品数量
-        lg:0//左边图显示的第几张
+        lg:0,//左边图显示的第几张
+        styles:{
+            width:'',
+            marginLeft:''
+            // marginLeft:-this.lg*485+'px'
+        }
     }},
     methods:{
         move(n){
-            if(n==-1&&lg>=1){
-                this.lg+=n
-            }else if(n==1&&lg<=this.img_lg.length-1){
-                this.lg+=n
+            // if(n==-1&&this.lg>=1){
+            //     this.lg+=n
+            // }else if(n==1&&this.lg<=this.img_lg.length-1){
+            //     this.lg+=n
+            // }
+            console.log(11)
+            if(n==-1){
+            console.log(22)
+                if(this.lg==0){
+            console.log(33)
+                    return
+                }else{
+            console.log(44)
+                    this.lg+=n
+                this.styles.marginLeft=-this.lg*485+'px'
+                }
+            }else if(n==1){
+            console.log(55)
+                if(this.count==(this.lg+1)){
+                    console.log(this.count,33)
+                    console.log(this.lg,22)
+            console.log(66)
+                    return
+                }else{
+                    console.log(77)
+                    this.lg+=n
+                    this.styles.marginLeft=-this.lg*485+'px'
+                    console.log(this.lg)
+                }
             }
         },
         moveTo(i){
             this.lg=i;
+            this.styles.marginLeft=-this.lg*485+'px'
         },
         btncount(n){
             if(n==-1&&this.count==1){
@@ -88,6 +118,7 @@ export default {
             }else{
                 this.count+=n
             }
+            
         },
         load(){
             this.axios.get("/api/wagashi",{
@@ -97,6 +128,10 @@ export default {
           this.wagashi=result.data.data[0];
           console.log(this.wagashi)
           this.img_lg=this.wagashi.img_lg.split(',')
+          this.count=this.img_lg.length
+            var width=485*this.img_lg.length+"px"
+           this.styles.width=width;
+        //   console.log(this.count)
           this.img_body=this.wagashi.img_body.split(',')
           this.pattr=this.wagashi.pattr.split(',')
           console.log(this.pattr)
@@ -108,16 +143,20 @@ export default {
         this.load()
     },
     computed:{
-        img_lgStyle(){
+        marginLeft(){
             var marginLeft=-this.lg*485+'px';
-            return marginLeft
-        }
+            this.styles.marginLeft=marginLeft
+            console.log(this.styles.marginLeft)
+            return(this.styles.marginLeft)
+        },
+        // width(){
+        //     var width=485*this.img_lg.length+"px"
+        //    this.width=width;
+        //     },
     },
     watch:{
-        div_width(){
-            // "width:"+485*this.img_lg.length+"px"
-        //    return width:970px;
-            }
+        
+            
     }
 
 }
@@ -138,23 +177,25 @@ export default {
 }
 .div_carousel{
     position: relative;
-
+    overflow: hidden;
     height:485px;
 }
 .carousel_inner{
-    width:100%;
+    /* width:100%; */
     border:1px solid #ddd;
 }
-.div_img{width:100%}
+.div_img{
+    width:485px;
+    float: left;
+    }
 .img_carousel{
     width:100%;
-    float: left;
 }
 .div_divdetail{
     width:485px;
     height:485px;
     float:right;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .img_detail{
     display: block;
@@ -233,6 +274,14 @@ select{
     width:142px;
     margin-left: 15px;
     height:25px;
+}
+.select_attr{
+    outline: none;
+    border:none;
+}
+.select_attr option{
+    border:none;
+
 }
 .a_btn{
     color:#fff;

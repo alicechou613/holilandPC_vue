@@ -286,7 +286,7 @@ a{
 .input_search{
   display: inline-block;
   color: #999;
-  width: 85px;height: 18px;
+  width: 85px;height: 17px;
   background: #fff;
   right:2px;
   top:0px;
@@ -295,9 +295,9 @@ a{
 }
 .img_search{
   position: absolute;
-  top:1px;
+  top:1.5px;
   left: 16px;
-  width: 18px;height: 18px;
+  width: 18px;height: 16px;
   cursor: pointer;
   z-index:10;
 }

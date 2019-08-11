@@ -33,6 +33,30 @@
           </tr>
           <tr>
             <td class="promptcenter"></td>
+            <td colspan="2" class="submit" >
+              <div>
+
+              <slidingVerification @sliding="verification"></slidingVerification>   
+              </div>
+            </td>
+            <td class="prompt">
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="promptcenter"></td>
+            <td colspan="2" class="submit">
+              
+                  <input type="checkbox" id="upwd" v-model="remember" style="width:20px;vertical-align:middle;margin-right:10px;">
+                  <label for="upwd">记住密码</label>
+              
+            </td>
+            <td class="prompt">
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td class="promptcenter"></td>
             <td colspan="2" class="submit">
               <span @click="submit">
                 登&nbsp;录
@@ -52,24 +76,52 @@
     </div>
 </template>
 <script>
+import slidingVerification from '../components/slidingVerification.vue';
 export default {
     data(){return{
         phone:'',
         phonemsg:'',
         pwd:'',
         pwdmsg:'',
-        loginStatus:''
+        loginStatus:'',
+        verificationcode:'false',
+        remember:''
     }},
+    components:{
+        slidingVerification
+    },
     methods:{
+        verification(n){
+            //  console.log(n)
+            this.verificationcode=n;
+            // console.log(this.verificationcode)
+        },
         submit(){
+            if(this.verificationcode=='false'){
+                alert('请拖动滑动条完成验证')
+                return
+            }
+            console.log(this.remember)
             // api/login  phone   upwd
             var data=this.qs.stringify({phone:this.phone,upwd:this.pwd})
+            // var data={phone:this.phone,upwd:this.pwd}
             this.axios.post("/api/login",data).then(res=>{
-                console.log(res)
                 this.loginStatus=res.data.message
-                console.log(this.loginStatus)
+                console.log(res.data.data.token)
+                var token=res.data.data.token
                 if(this.loginStatus=='登录成功'){
+                    if(this.remember=='true'){
+                        // console.log(this.remember)
+                        localStorage.setItem('token',token)
+                    // console.log(localStorage.getItem('token'))
+                    }else{
+                        // console.log(this.remember)
+                        sessionStorage.setItem('token',token)
+                    // console.log(sessionStorage.getItem('token'))
+                    }
                     this.$router.go(-1)
+                }else{
+                    alert('您还未注册，请先注册')
                 }
             }).catch(err=>{console.log(err)})
         },

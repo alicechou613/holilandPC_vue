@@ -3,7 +3,7 @@
          <!-- 轮播图 -->
         <div class="div_banner"  @mouseenter="stop" @mouseleave="start">
         <!--轮播图片-->
-        <div class="div_banner_img"  :class="ulClass"  :style="ulStyle">
+        <div class="div_banner_img" :class="ulClass"  :style="ulStyle">
             <div class="div_div_banner_img" v-for="(elem,i) of bannerimg" :key="i">
                     <img :src="elem.cimgurl" alt="" class="img_banner">
             </div>
@@ -115,7 +115,8 @@ export default {
     ulStyle() {
       var marginLeft = -this.i * 996 + "px";
       return { marginLeft };
-    }
+    },
+    
   }
 };
 </script>
