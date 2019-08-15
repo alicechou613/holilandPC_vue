@@ -10,8 +10,8 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
-  render: h => h(App)
+  render: h => h(App),
+  store
 }).$mount('#app')
 
 //每次跳转都回到页面顶部

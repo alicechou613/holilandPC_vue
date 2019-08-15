@@ -6,10 +6,12 @@ import Vue from "vue"
 import axios from "axios"
 //3：发送请求时保存session信息
 axios.defaults.withCredentials=true
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 //4：设置请求基础路径
 // axios.defaults.baseURL="http://127.0.0.1:3000"
-axios.defaults.baseURL="http://192.168.3.39:80"
+// axios.defaults.baseURL="http://192.168.3.39:80"
 // axios.defaults.baseURL="http://localhost:80"
+axios.defaults.baseURL="http://192.168.43.251:80"
 // axios.defaults.baseURL="https://www.tianqiapi.com"
 //5：将axios注册vue实例
 Vue.prototype.axios=axios
@@ -17,20 +19,22 @@ Vue.prototype.axios=axios
 // import axios from "axios";
 // import store from './store'
 
+
 // const Axios=axios.create({
 //   baseURL:"http://192.168.3.39:80",
 //   withCredentials:true
 // })
-// axios.interceptors.request.use(
+// Axios.interceptors.request.use(
 //   config=>{
 //     console.log("进入请求拦截器...");
-    //this.axios.post(
-      //"user/signin",
-      //{uname:dingding , upwd:123456}
-    //)
-    // if(config.method==="post"){
-    //   config.data=qs.stringify(config.data)
-    // }
+//     this.axios.post(
+//       // "user/signin",
+//       "/api/login",
+//       {phone:15175215880 , upwd:1234567}
+//     )
+//     if(config.method==="post"){
+//       config.data=qs.stringify(config.data)
+//     }
     
 //     if(localStorage.getItem("token")){
 //       config.headers.token=localStorage.getItem("token");

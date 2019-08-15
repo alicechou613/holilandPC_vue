@@ -32,15 +32,17 @@
                 <p class="delivery">&nbsp;</p>
             </div>
             <h2 class="h2_price" v-text="`￥${wagashi.price.toFixed(2)}`"></h2>
-            <div class="div_btn  btn_left btn_padding">
+            <div class="div_btn  btn_left btn_padding" v-show="pattr.length>1">
                 <span class="a_btn">规格</span>
-                <select name="attr" class="select_attr" id="attr">
-                    <option value="-1">请选择</option>
-                    <option :value="i" v-for="(elem,i) of pattr" :key="i">{{elem}}</option>
-                </select>
+                <!-- <div class="div_select"> -->
+                    <select name="attr" class="select_attr" id="attr" v-model="attr">
+                        <option value="-1">请选择</option>
+                        <option :value="i" v-for="(elem,i) of pattr" :key="i">{{elem}}</option>
+                    </select>
+                <!-- </div> -->
             </div>
             <div class="div_btn btn_left">
-                <div class="a_btn">加入购物车</div>
+                <div class="a_btn" @click="add">加入购物车</div>
             </div>
             <div class="div_btn  btn_left btn_padding">
                 <span class="a_btn btn_count">数量</span>
@@ -63,10 +65,12 @@
 <script>
 export default {
     data(){return{
+        id:'',
         wagashi:{price:0},
         img_lg:[],
         img_body:[],
         pattr:[],
+        attr:0,//选择了哪一种口味
         count:1,//商品数量
         lg:0,//左边图显示的第几张
         styles:{
@@ -76,35 +80,52 @@ export default {
         }
     }},
     methods:{
+        add(){
+            // console.log(this.wagashi.pid)
+            // console.log(this.pattr[this.attr])
+            // console.log(this.count)
+            // console.log(this.wagashi.pid)
+            // type:wagashi
+        //    console.log(sessionStorage.getItem("token")||localStorage.getItem("token"))
+            // var data=this.qs.stringify({type:'2',pid:'1',pattr:'7味全家福系列',count:'5'})
+            // var da=this.qs.stringify({type:'2',pid:'1',pattr:'7味全家福系列',count:'5',access_user_token:'y2NxK8D9dwAmXytvbxxN2UWVFkgzARHakdfMNV/9C4UGjbwX3+hzTPzdJBJF6yix'})
+            this.axios.post('http://localhost:80/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
+            {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                // headers:{"access_user_token":sessionStorage.getItem("token")||localStorage.getItem("token")}
+                }).then(res=>{console.log(res.data)})
+                .catch(err=>{console.log(err)})
+
+        //         axios.post('http://localhost:80/api/addCart', 
+        //     'type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
+        //     {headers: {
+        //         'Content-Type':'application/x-www-form-urlencoded',
+        //         'access_user_token': sessionStorage['token']
+        //     }}
+        // )
+        //     .then((res)=>{
+        //         console.log(res)
+        //     }).catch((err)=>console.log(err))
+        // }
+        },
         move(n){
             // if(n==-1&&this.lg>=1){
             //     this.lg+=n
             // }else if(n==1&&this.lg<=this.img_lg.length-1){
             //     this.lg+=n
             // }
-            console.log(11)
             if(n==-1){
-            console.log(22)
                 if(this.lg==0){
-            console.log(33)
                     return
                 }else{
-            console.log(44)
                     this.lg+=n
                 this.styles.marginLeft=-this.lg*485+'px'
                 }
             }else if(n==1){
-            console.log(55)
                 if(this.count==(this.lg+1)){
-                    console.log(this.count,33)
-                    console.log(this.lg,22)
-            console.log(66)
                     return
                 }else{
-                    console.log(77)
                     this.lg+=n
                     this.styles.marginLeft=-this.lg*485+'px'
-                    console.log(this.lg)
                 }
             }
         },
@@ -121,11 +142,13 @@ export default {
             
         },
         load(){
+            console.log(this.$route.params.id)
+            this.id=this.$route.params.id
             this.axios.get("/api/wagashi",{
-              params: {
-                  "type": 1
+                params: {
+                    "type": this.id
               }}).then(result=>{
-          this.wagashi=result.data.data[0];
+                  this.wagashi=result.data.data[0];
           console.log(this.wagashi)
           this.img_lg=this.wagashi.img_lg.split(',')
           this.count=this.img_lg.length
@@ -135,7 +158,7 @@ export default {
           this.img_body=this.wagashi.img_body.split(',')
           this.pattr=this.wagashi.pattr.split(',')
           console.log(this.pattr)
-
+            this.count=1;
       })
         }
     },
@@ -146,7 +169,7 @@ export default {
         marginLeft(){
             var marginLeft=-this.lg*485+'px';
             this.styles.marginLeft=marginLeft
-            console.log(this.styles.marginLeft)
+            // console.log(this.styles.marginLeft)
             return(this.styles.marginLeft)
         },
         // width(){
@@ -162,183 +185,195 @@ export default {
 }
 </script>
 <style scoped>
-.content{
-    margin:0 auto;
-    width:996px;
-    z-index:-1;
+.content {
+  margin: 0 auto;
+  width: 996px;
+  z-index: -1;
 }
-.div_top{
-    width:996px;height: 485px;
+.div_top {
+  width: 996px;
+  height: 485px;
 }
-.carousel{
-    float:left;
-    width:485px;height:485px;
-    z-index: -1;
+.carousel {
+  float: left;
+  width: 485px;
+  height: 485px;
+  z-index: -1;
 }
-.div_carousel{
-    position: relative;
-    overflow: hidden;
-    height:485px;
+.div_carousel {
+  position: relative;
+  overflow: hidden;
+  height: 485px;
 }
-.carousel_inner{
-    /* width:100%; */
-    border:1px solid #ddd;
+.carousel_inner {
+  /* width:100%; */
+  border: 1px solid #ddd;
 }
-.div_img{
-    width:485px;
-    float: left;
-    }
-.img_carousel{
-    width:100%;
+.div_img {
+  width: 485px;
+  float: left;
 }
-.div_divdetail{
-    width:485px;
-    height:485px;
-    float:right;
-    /* overflow: hidden; */
+.img_carousel {
+  width: 100%;
 }
-.img_detail{
-    display: block;
-    width:485px;
-    height:290px;
-    margin-bottom: 10px;
+.div_divdetail {
+  width: 485px;
+  height: 485px;
+  float: right;
+  /* overflow: hidden; */
 }
-h2{
-    color:#2093cc;
-    font-size: 20px;
+.img_detail {
+  display: block;
+  width: 485px;
+  height: 290px;
+  margin-bottom: 10px;
 }
-.div_title{
-    float: left;
-    width: 300px;
-    margin-top:12px;
+h2 {
+  color: #2093cc;
+  font-size: 20px;
 }
-.h2_title{
-    height:30px;
-    width: 100%;
+.div_title {
+  float: left;
+  width: 300px;
+  margin-top: 12px;
 }
-.h2_price{
-    float:right;
-    width: 130px;
-    margin-top:31.8px;
-    text-align: right;
+.h2_title {
+  height: 30px;
+  width: 100%;
 }
-.delivery{
-    margin-top:1px;
+.h2_price {
+  float: right;
+  width: 130px;
+  margin-top: 31.8px;
+  text-align: right;
 }
-.div_btn{
-    height:50px;
-    width:230px;
-    /*padding-left:20px;*/
-    margin:12px 12px 0 0;
-    background-color: #87d0e3;
-    text-align: center;
-    line-height: 50px;
+.delivery {
+  margin-top: 1px;
 }
-.btn_left{
-    float:left;
+.div_btn {
+  height: 50px;
+  width: 230px;
+  /*padding-left:20px;*/
+  margin: 12px 12px 0 0;
+  background-color: #87d0e3;
+  text-align: center;
+  line-height: 50px;
 }
-.btn_padding{
-    text-align: left;
-    box-sizing: border-box;
-    padding-left:20px;
-    position: relative;
+.btn_left {
+  float: left;
 }
-.btn_count{
-    margin-right: 27px;
+.btn_padding {
+  text-align: left;
+  box-sizing: border-box;
+  padding-left: 20px;
+  position: relative;
 }
-.span_count{
-    display:block;
-    position: absolute;
-    top:12px;
-    left:123.5px;
-    width:29px;
-    height:28px;
-    background: #fff;
-    color:#4fa9d7;
-    text-align: center;
-    line-height: 27px;
+.btn_count {
+  margin-right: 27px;
 }
-.btn_padding button{
-    width:29px;
-    height:28px;
-    vertical-align: middle;
-    border:1px solid #fff;
-    color:#fff;
-    text-align: center;
-    line-height: 25px;
-    background: #87d0e3;
-    margin:0 18px;
-    outline: none;
+.span_count {
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 123.5px;
+  width: 29px;
+  height: 28px;
+  background: #fff;
+  color: #4fa9d7;
+  text-align: center;
+  line-height: 27px;
 }
-select{
-    width:142px;
-    margin-left: 15px;
+.btn_padding button {
+  width: 29px;
+  height: 28px;
+  vertical-align: middle;
+  border: 1px solid #fff;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  background: #87d0e3;
+  margin: 0 18px;
+  outline: none;
+}
+select {
+  width: 142px;
+  margin-left: 15px;
+  height: 25px;
+}
+/* .div_select{
+     display: inline-block; 
+    float: right;
+    margin:0px 0px 0px 0px;
+    width:138px;
     height:25px;
-}
-.select_attr{
-    outline: none;
-    border:none;
-}
-.select_attr option{
-    border:none;
-
-}
-.a_btn{
-    color:#fff;
-}
-.btn_yellow{
-    background-color: #ffff00;
-}
-.a_buy{
-    color:#626262;
-}
-.div_details{
-    width:996px;
-    clear:both;
-    margin-top:18px;
-    margin-bottom: 20px;
-}
-.img_details{
-    width:996px;
-    margin-top: -3px;
-}
-.a_prev{
-    display: block;
-    position: absolute;
-    width: 23px;height:25px;
-    background-image: url(../assets/bj_4.png);
+    overflow: hidden;
+    background-image: url(../assets/select.png);
     background-repeat: no-repeat;
-
+    background-position: right 
+} */
+.select_attr {
+  outline: none;
+  border: none;
 }
-.a_prev_left{
-    background-position: 0px -201px;
-    bottom:6px;
-    left:15px;
+.select_attr option {
+  border: none;
+  outline: none;
 }
-.a_prev_right{
-    background-position: 0px -165px;
-    bottom:6px;
-    right:15px;
+.a_btn {
+  color: #fff;
 }
-.carousel_indicatos{
-
-    position: absolute;
-    /*left:45%;*/
-    display: flex;
-    justify-content:center;
-    bottom:10px;
-    left:45%;
-
+.btn_yellow {
+  background-color: #ffff00;
 }
-.carousel_indicatos li{
-    bottom:5px;
-    display: block;
-    width: 10px;height: 10px;
-    border:1px solid #626262;
-    border-radius:50%;
-    margin: 10px 5px;
+.a_buy {
+  color: #626262;
 }
-.li_active{
-    background-color:#626262 ;
+.div_details {
+  width: 996px;
+  clear: both;
+  margin-top: 18px;
+  margin-bottom: 20px;
+}
+.img_details {
+  width: 996px;
+  margin-top: -3px;
+}
+.a_prev {
+  display: block;
+  position: absolute;
+  width: 23px;
+  height: 25px;
+  background-image: url(../assets/bj_4.png);
+  background-repeat: no-repeat;
+}
+.a_prev_left {
+  background-position: 0px -201px;
+  bottom: 6px;
+  left: 15px;
+}
+.a_prev_right {
+  background-position: 0px -165px;
+  bottom: 6px;
+  right: 15px;
+}
+.carousel_indicatos {
+  position: absolute;
+  /*left:45%;*/
+  display: flex;
+  justify-content: center;
+  bottom: 10px;
+  left: 45%;
+}
+.carousel_indicatos li {
+  bottom: 5px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #626262;
+  border-radius: 50%;
+  margin: 10px 5px;
+}
+.li_active {
+  background-color: #626262;
 }
 </style>

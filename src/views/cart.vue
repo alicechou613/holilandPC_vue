@@ -37,6 +37,26 @@
                         <a href="">放入收藏夹</a>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox">
+                        <img src="../assets/ceshi/953_P_1548877338626.jpg" alt="">
+                        <a href="">芝麻酥佳斯柯达sahd奥术大师鸡死及袋</a>    
+                    </td>
+                    <td>20cm-酸奶提子</td>
+                    <td>39积分</td>
+                    <td>￥39.00</td>
+                    <td class="td_btn">
+                        <button @click="count(-1,1)">-</button>
+                        <span v-html="count1" style="margin-left: 8px;"/>
+                        <button @click="count(1,1)" style="margin-left: 8px;">+</button>
+                    </td>
+                    <td>￥39.00</td>
+                    <td>
+                        <a href="" style="padding-bottom: 5px;">删除</a>   
+                        <a href="">放入收藏夹</a>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="div_body2">

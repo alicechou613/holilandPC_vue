@@ -45,8 +45,8 @@ export default new Router({
     {path: '/starProducts',component: starProducts},//明星系列和尊爱系列合并。展示尊爱系列产品
     {path: '/allproducts',component: allproducts},//全部商品页-数据未写活。数据库没数据
     {path: '/wagashi',component: wagashi},//零食糕点页-数据未写活。数据库没数据
-    {path: '/detailWagashi/:pid',component: detailWagashi},//零食糕点详情页
-    {path: '/detailCake/:pid',component: detailCake},//蛋糕详情页
+    {path: '/detailWagashi/:id',component: detailWagashi},//零食糕点详情页
+    {path: '/detailCake/:id',component: detailCake},//蛋糕详情页
     {path: '/account',component: account},//我的账户页-静态页面
     {path: '/address',component: address},//我的收货地址页-静态页面
     {path: '/aside',component: aside},//帮助中心页侧边栏-静态页面

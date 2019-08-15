@@ -97,6 +97,10 @@ export default {
             // console.log(this.verificationcode)
         },
         submit(){
+            if(!this.phone||!this.pwd){
+                alert('请输入用户名和密码')
+                return
+            }
             if(this.verificationcode=='false'){
                 alert('请拖动滑动条完成验证')
                 return
@@ -111,13 +115,9 @@ export default {
                 var token=res.data.data.token
                 if(this.loginStatus=='登录成功'){
                     if(this.remember=='true'){
-                        // console.log(this.remember)
                         localStorage.setItem('token',token)
-                    // console.log(localStorage.getItem('token'))
                     }else{
-                        // console.log(this.remember)
                         sessionStorage.setItem('token',token)
-                    // console.log(sessionStorage.getItem('token'))
                     }
                     this.$router.go(-1)
                 }else{

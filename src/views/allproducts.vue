@@ -3,12 +3,14 @@
     <div class="div_list">
       <div class="div_div_list">
         <div class="div_product" v-for="(elem,i) of products" :key="i">
-          <div class="a_img_product" :style='`backgroundImage:url("${elem.img_main}")`'>  
-          </div>
-          <div class="a_title_product">                
-              <p class="p_product">{{elem.title}}</p>
-              <b class="b_price_product" v-text="`¥${elem.price.toFixed(2)}`"></b>
-          </div>
+            <router-link :to="'/'+elem.url+'/'+elem.pid">
+                <div class="a_img_product" :style='`backgroundImage:url("${elem.img_main}")`'>  
+                </div>
+                <div class="a_title_product">                
+                    <p class="p_product">{{elem.title}}</p>
+                    <b class="b_price_product" v-text="`¥${elem.price.toFixed(2)}`"></b>
+                </div>
+            </router-link>
         </div>
        
       </div>
