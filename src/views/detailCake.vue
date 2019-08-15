@@ -7,22 +7,19 @@
         <div class="carousel">
             <div class="div_carousel">
             <!--轮播图-->
-                <div class="carousel_inner">
-                    <div class="div_img">
-                        <img src="../assets/ceshi/953_P_1548877338484.jpg" alt="" class="img_carousel"/>
+                <div class="carousel_inner" :style="styles">
+                    <div class="div_img" v-for="(elem,i) of img_lg" :key="i" >
+                        <img :src="elem" alt="" class="img_carousel"/>
                     </div>
                 </div>
             <!--左右箭头-->
-                <a href="" class="a_prev a_prev_left">
-                </a>
-                <a href="" class="a_prev a_prev_right">
-                </a>
+                <span class="a_prev a_prev_left" @click="move(-1)">
+                </span>
+                <span class="a_prev a_prev_right" @click="move(1)">
+                </span>
                 <!--轮播指示器-->
                 <ul class="carousel_indicatos">
-                    <li class="li_active"></li>
-                    <li class=""></li>
-                    <li class=""></li>
-                    <li class=""></li>
+                    <li :class="i==lg?'li_active':''" v-for="(elem,i) of img_lg" :key="i" @click="moveTo(i)"></li>
                 </ul>
             </div>
         </div>
@@ -56,7 +53,106 @@
 </template>
 <script>
 export default {
-    data(){return{}}
+    data(){return{
+        id:'',
+        cake:{price:0},
+        img_lg:[],
+        img_body:[],
+        pattr:[],
+        attr:0,//选择了哪一种口味
+        count:1,//商品数量
+        lg:0,//左边图显示的第几张
+        styles:{
+            width:'',
+            marginLeft:''
+            // marginLeft:-this.lg*485+'px'
+        }
+    }},
+    methods:{
+        add(){
+            // console.log(this.cake.pid)
+            // console.log(this.pattr[this.attr])
+            // console.log(this.attr)
+            
+            // console.log(this.count)
+            // console.log(this.cake.pid)
+            // type:cake
+        if(this.attr==0){this.attr="-1"}
+            var data=this.qs.stringify({type:'2',pid:this.cake.pid,pattr:this.attr,count:this.count})
+            console.log(data)
+            // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
+            this.axios.post('/api/addCart',data,
+            {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                // headers:{"access_user_token":sessionStorage.getItem("token")||localStorage.getItem("token")}
+                }).then(res=>{console.log(res.data)})
+                .catch(err=>{console.log(err)})
+        },
+        move(n){
+            // if(n==-1&&this.lg>=1){
+            //     this.lg+=n
+            // }else if(n==1&&this.lg<=this.img_lg.length-1){
+            //     this.lg+=n
+            // }
+            if(n==-1){
+                if(this.lg==0){
+                    return
+                }else{
+                    this.lg+=n
+                this.styles.marginLeft=-this.lg*485+'px'
+                }
+            }else if(n==1){
+                if(this.count==(this.lg+1)){
+                    return
+                }else{
+                    this.lg+=n
+                    this.styles.marginLeft=-this.lg*485+'px'
+                }
+            }
+        },
+        moveTo(i){
+            this.lg=i;
+            this.styles.marginLeft=-this.lg*485+'px'
+        },
+        btncount(n){
+            if(n==-1&&this.count==1){
+                return
+            }else{
+                this.count+=n
+            }
+            
+        },
+        load(){
+            // console.log(this.$route.params.id)
+            this.id=this.$route.params.id
+            this.axios.get("/api/cake",{
+                params: {
+                    "type": this.id
+              }}).then(result=>{
+                  this.cake=result.data.data[0];
+          console.log(this.cake)
+          this.img_lg=this.cake.img_lg.split(',')
+          this.count=this.img_lg.length
+            var width=485*this.img_lg.length+"px"
+           this.styles.width=width;
+        //   console.log(this.count)
+          this.img_body=this.cake.img_body.split(',')
+          this.pattr=this.cake.pattr.split(',')
+          console.log(this.pattr)
+            this.count=1;
+      })
+        }
+    },
+    created(){
+        this.load()
+    },
+    computed:{
+        marginLeft(){
+            var marginLeft=-this.lg*485+'px';
+            this.styles.marginLeft=marginLeft
+            // console.log(this.styles.marginLeft)
+            return(this.styles.marginLeft)
+        },
+    },
 }
 </script>
 <style scoped>

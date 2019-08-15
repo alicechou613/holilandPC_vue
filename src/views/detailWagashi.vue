@@ -82,19 +82,22 @@ export default {
     methods:{
         add(){
             // console.log(this.wagashi.pid)
-            // console.log(this.pattr[this.attr])
+            console.log(this.pattr[this.attr])
+            // console.log(this.attr)
+            
             // console.log(this.count)
             // console.log(this.wagashi.pid)
             // type:wagashi
-        //    console.log(sessionStorage.getItem("token")||localStorage.getItem("token"))
-            // var data=this.qs.stringify({type:'2',pid:'1',pattr:'7味全家福系列',count:'5'})
-            // var da=this.qs.stringify({type:'2',pid:'1',pattr:'7味全家福系列',count:'5',access_user_token:'y2NxK8D9dwAmXytvbxxN2UWVFkgzARHakdfMNV/9C4UGjbwX3+hzTPzdJBJF6yix'})
-            this.axios.post('http://localhost:80/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
+        // if(this.attr==0){this.attr="-1"}
+            if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
+            var data=this.qs.stringify({type:'2',pid:this.wagashi.pid,pattr:this.pattr[this.attr],count:this.count})
+            console.log(data)
+            this.axios.post('/api/addCart',data,
             {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
-                // headers:{"access_user_token":sessionStorage.getItem("token")||localStorage.getItem("token")}
                 }).then(res=>{console.log(res.data)})
                 .catch(err=>{console.log(err)})
 
+            // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
         //         axios.post('http://localhost:80/api/addCart', 
         //     'type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
         //     {headers: {
@@ -142,14 +145,14 @@ export default {
             
         },
         load(){
-            console.log(this.$route.params.id)
+            // console.log(this.$route.params.id)
             this.id=this.$route.params.id
             this.axios.get("/api/wagashi",{
                 params: {
                     "type": this.id
               }}).then(result=>{
                   this.wagashi=result.data.data[0];
-          console.log(this.wagashi)
+        //   console.log(this.wagashi)
           this.img_lg=this.wagashi.img_lg.split(',')
           this.count=this.img_lg.length
             var width=485*this.img_lg.length+"px"

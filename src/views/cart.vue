@@ -17,54 +17,35 @@
                     <th>小计</th>
                     <th>操作</th>
                 </tr>
-                <tr>
+                <tr v-for="(item,i) of list" :key="i">
                     <td>
                         <input type="checkbox">
-                        <img src="../assets/ceshi/953_P_1548877338626.jpg" alt="">
-                        <a href="">芝麻酥佳斯柯达sahd奥术大师鸡死及袋</a>    
+                        <img :src="item.img_main" alt="">
+                        <a href="">{{item.title}}</a>    
                     </td>
-                    <td>20cm-酸奶提子</td>
-                    <td>39积分</td>
-                    <td>￥39.00</td>
+                    <td v-text="item.pattr=='空'?'':item.pattr"></td>
+                    <td>{{item.price}}积分</td>
+                    <td v-text="`￥${item.price.toFixed(2)}`"></td>
                     <td class="td_btn">
-                        <button @click="count(-1,1)">-</button>
-                        <span v-html="count1" style="margin-left: 8px;"/>
-                        <button @click="count(1,1)" style="margin-left: 8px;">+</button>
+                        <button @click="count(-1,i)">-</button>
+                        <span v-html="item.count" style="margin-left: 8px;"/>
+                        <button @click="count(1,i)" style="margin-left: 8px;">+</button>
                     </td>
-                    <td>￥39.00</td>
+                    <td  v-text="`￥${(item.price*item.count).toFixed(2)}`"></td>
                     <td>
                         <a href="" style="padding-bottom: 5px;">删除</a>   
                         <a href="">放入收藏夹</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                        <img src="../assets/ceshi/953_P_1548877338626.jpg" alt="">
-                        <a href="">芝麻酥佳斯柯达sahd奥术大师鸡死及袋</a>    
-                    </td>
-                    <td>20cm-酸奶提子</td>
-                    <td>39积分</td>
-                    <td>￥39.00</td>
-                    <td class="td_btn">
-                        <button @click="count(-1,1)">-</button>
-                        <span v-html="count1" style="margin-left: 8px;"/>
-                        <button @click="count(1,1)" style="margin-left: 8px;">+</button>
-                    </td>
-                    <td>￥39.00</td>
-                    <td>
-                        <a href="" style="padding-bottom: 5px;">删除</a>   
-                        <a href="">放入收藏夹</a>
-                    </td>
-                </tr>
+                
             </table>
         </div>
         <div class="div_body2">
             <div>
-                <p>可选好利来专属附加产品<span></span></p>
+                <p @click="body2_open">可选好利来专属附加产品<span></span></p>
                 <a href="">继续购物</a>
                 <div>
-                    <table style="display: none;">
+                    <table :class="{body_open}">
                         <tr>
                             <th>商品信息</th>
                             <th>单价</th>
@@ -81,13 +62,14 @@
         </div>
         <div class="div_body3">
             <div>
-                <a href="#">全选</a>
-                <a href="#">×删除选中商品</a>
+                <span href="#">全选</span>
+                <span href="#">×删除选中商品</span>
             </div>
             <div>
                 <span>总计:</span>
-                <span>￥4545.00</span>
-                <a>下一步</a>
+                <span>{{totalPrice}}</span>
+                <!-- <span>{{total}}</span> -->
+                <span>下一步</span>
             </div>
         </div>
     </div>
@@ -96,17 +78,52 @@
 <script>
 export default {
     data(){return{
-        count1:12
+        body_open:true,//附加产品按钮开关
+        list:[],
+        totalPrice:0
     }},
     methods:{
+        // totalPrice1(){
+        //     let total=0;
+        //     for(var i=0;i<this.list.length;i++){
+        //         let item=list[i]
+        //         total+=item.price*item.count
+        //     }
+        //     this.totalPrice=total.toString().replace(/\B(?=(\d{3})+$)/g,',')
+        // },
         count(c,n){
-            if(c==-1&&this.count1==1){
+            if(c==-1&&this.list[n].count==1){
                 //删除商品
             }else{
-                this.count1+=c;
+                this.list[n].count+=c;
             }
+            return this.list[n].count
+        },
+        //附加产品按钮开关
+        body2_open(){
+            console.log(1)
+            if(this.body_open==false){
+                this.body_open=true;
+            }else{
+            console.log(2)
+                this.body_open=false;
+            }
+        },
+        load(){
+            console.log(1)
+            this.axios.post('/api/getCarts','',
+            {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                }).then(res=>{
+                    console.log(res.data.data)
+                    this.list=res.data.data
+                    })
+                .catch(err=>{console.log(err)})
         }
+    },
+    created(){
+        this.load()
     }
+    
 }
 </script>
 <style scoped>
@@ -239,24 +256,28 @@ export default {
     background-repeat: no-repeat;
     background-position: 0px -82px;
 }
+.body_open{
+    display:none;
+}
 .div_body3{
     margin-top:20px;
 }
 .div_body3>div:first-child{
     display: inline-block;
-    width:740px;
+    width:140px;
     height:60px;
     line-height: 60px;
 }
-.div_body3>div:first-child>a{
+.div_body3>div:first-child>span{
     color:rgb(98, 98, 98);
 }
-.div_body3>div:first-child>a:last-child{
+.div_body3>div:first-child>span:last-child{
     margin-left: 15px;
 }
 .div_body3>div:last-child{
-    display: inline-block;
-    width:230px;
+    display: block;
+    /* min-width:230px; */
+    float: right;
     height:60px;
     line-height: 60px;
     font-size:16px;
@@ -267,9 +288,9 @@ export default {
     padding-left: 20px;
     position: relative;
 }
-.div_body3>div:last-child>a{
+.div_body3>div:last-child>span:last-child{
     background-color: #ff0;
-    display: inline-block;
+    display: block;
     font-size: 14px;
     height:30px;
     line-height: 30px;
@@ -278,6 +299,12 @@ export default {
     position: absolute;
     right:10px;
     top:16px;
+    float:right;
+}
+.div_body3>div:last-child>span:nth-child(2){
+    display: block;
+    float:right;
+    margin-right:100px;
 }
 </style>
 
