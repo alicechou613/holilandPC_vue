@@ -92,9 +92,7 @@ export default {
     },
     methods:{
         verification(n){
-            //  console.log(n)
             this.verificationcode=n;
-            // console.log(this.verificationcode)
         },
         submit(){
             if(!this.phone||!this.pwd){
@@ -105,21 +103,38 @@ export default {
                 alert('请拖动滑动条完成验证')
                 return
             }
-            console.log(this.remember)
             // api/login  phone   upwd
             var data=this.qs.stringify({phone:this.phone,upwd:this.pwd})
             // var data={phone:this.phone,upwd:this.pwd}
             this.axios.post("/api/login",data).then(res=>{
                 this.loginStatus=res.data.message
-                console.log(res.data.data.token)
                 var token=res.data.data.token
+                //vuex存用户名
+                var uname=res.data.data.name
+                this.$store.commit('setUname',uname)
+                console.log(uname)
+                //vuex设置登录状态
+                this.$store.commit('setIslogin','true')
+                console.log(this.$store.getters.isLogin,333)
                 if(this.loginStatus=='登录成功'){
                     if(this.remember=='true'){
                         localStorage.setItem('token',token)
                     }else{
                         sessionStorage.setItem('token',token)
                     }
-                    this.$router.go(-1)
+                this.axios.post('/api/getCarts','',
+                  {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                  }).then(res=>{
+                      var list=res.data.data
+                      var mycount=0
+                      for(var item of list){
+                        mycount+=item.count
+                      }
+                      this.$store.commit('setCount',mycount)
+                        this.$router.go(-1)
+                      })
+                  .catch(err=>{console.log(err)})
+                //如果登录失败
                 }else{
                     alert('您还未注册，请先注册')
                 }

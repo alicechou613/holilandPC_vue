@@ -7,27 +7,28 @@
       <div class="div_head_right">
         <div class="div_head_d" id="login">
           <!-- 注销 -->
-          <a href="javascript:;" v-if="isLogin==true" @click="logout" class="a_reg_head" v-text="`注销`"></a>
+          <span href="javascript:;" v-show="isLogina=='true'" @click="logout" class="a_reg_head" v-text="`注销`"></span>
           <!-- 注册 -->
-          <a href="reg.html" v-else @click="login" class="a_reg_head" v-text="`注册`"></a>
+          <router-link to="/reg" v-show="isLogina!='true'" class="a_reg_head" v-text="`注册`"></router-link>
           <!-- uname -->
-          <a href="javascript:;" v-if="isLogin==true" @click="logout" v-text="uname" class="a_reg_head  a_login_head"></a>
+          <span href="javascript:;" v-show="isLogina=='true'" class="a_reg_head  a_login_head">{{$store.getters.uname}}</span>
           
           <!-- 登录 -->
-          <a href="login.html" v-else @click="login" class="a_reg_head a_login_head" v-text="`登录`"></a>
+          <router-link to="/login" v-show="isLogina!='true'" class="a_reg_head a_login_head" v-text="`登录`"></router-link>
           <!-- 购物车 -->
           <div class="div_trolley">
             <router-link to="/cart" class="a_trolley">
-              <span class="span_trolley">件</span>
-              <span class="span_trolley">0</span>
+              <span class="span_a_trolley"></span>
+              <span class="span_trolley" v-show="myCount>=1">件</span>
+              <span class="span_trolley">{{myCount}}</span>
             </router-link>
           </div>
           <!-- 地址 -->
           <div class="div_address_head">
-            <a href="#" class="a_address_head">
+            <router-link to="/" class="a_address_head">
               <span class="a_reg_head">北京</span>
               <img src="../assets/index/dizhi_icon.png" class="div_a_coord_head" alt="">
-            </a>
+            </router-link>
           </div>
           <!-- 导航栏 -->
           <div class="div_nav">
@@ -99,8 +100,8 @@
  export default {
    data(){
      return {
-         isLogin:true,
-        uname:"dingding",
+         isLogina:'',
+        uname:"",
         search_input:''
      }
    },
@@ -111,11 +112,51 @@
     }
 },
    methods:{
-        login(){
-            this.isLogin=true
+        load(){
+          if(this.$store.getters.isLogin==''){
+          //每次刷新。检测是否已经登录
+              //如果首次进入网站，就设置vuex里的isLogin为false
+            if(sessionStorage.getItem('isLogin')=='undefined'||sessionStorage.getItem('isLogin')=='null'){
+              sessionStorage.setItem('isLogin','false')
+              //如果不是首次进入网站。就把缓存的登录数据给vuex（未登录+已登录）
+            }else{
+              this.$store.commit('setIslogin',sessionStorage.getItem('isLogin'))
+            }
+            console.log(this.$store.getters.isLogin,'147')
+          }
+           if(this.$store.getters.isLogin=='true'){
+          //如果是已登录，把缓存中的用户名给vuex
+             this.$store.commit('setUname',sessionStorage.getItem('uname'))
+             //如果缓存中购物车数量为空,调用购物车数据
+             if(sessionStorage.getItem('count')=='undefined'||sessionStorage.getItem('count')=='null'){
+                // this.axios.post('/api/getCarts','',
+                //   {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                //   }).then(res=>{
+                //       console.log(res.data.data)
+                //       var list=res.data.data
+                //       var count=0
+                //       for(var item of list){
+                //         count+=item.count
+                //       }
+                //       console.log(count)
+                //       this.$store.commit('setCount',count)
+                //       })
+                //   .catch(err=>{console.log(err)})
+             }else{
+               //如果是已登录，缓存中有购物车数量，把缓存中的购物车商品数量给vuex
+             }
+               this.$store.commit('setCount',sessionStorage.getItem('count'))
+               console.log(this.$store.getters.count,888)
+           }
+          this.uname=this.$store.state.uname
+          this.isLogina=this.$store.getters.isLogin
         },
+        
         logout(){
-            this.isLogin=false
+            this.isLogina=false
+            this.$store.commit('setIslogin',false)
+            this.$store.commit('setCount',null)
+            this.$store.commit('setUname',null)
         },
         a_series(){
             console.log(222)
@@ -135,7 +176,14 @@
             // })
           }
         },
-        
+    },
+    mounted(){
+      this.load()
+    },
+    computed:{
+      myCount:function(){
+        return this.$store.getters.count
+      }
     }
  }  
  
@@ -181,18 +229,24 @@
   margin: 0 20px;
 }
 .div_trolley{
-  width: 43.87px;height: 25px;
+  height: 25px;
   float: right;
 }
 .a_trolley{
   float: right;
-  width: 50px;height: 25px;
+  height: 25px;
+    font-size: 13px;
+  color: #6bc4df;
+}
+.span_a_trolley{
+  float: left;
+  width: 20px;
+  height: 25px;
   background-image: url(../assets/index/cart_icon.png);
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size:20px 20px;
-  font-size: 13px;
-  color: #6bc4df;
+  padding-right: 8.2px
 }
 .span_trolley{
   float: right;

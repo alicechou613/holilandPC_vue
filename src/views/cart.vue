@@ -25,7 +25,7 @@
                     </td>
                     <td v-text="item.pattr=='空'?'':item.pattr"></td>
                     <td>{{item.price}}积分</td>
-                    <td v-text="`￥${item.price.toFixed(2)}`"></td>
+                    <td v-text="`￥${parseFloat(item.price).toFixed(2)}`"></td>
                     <td class="td_btn">
                         <button @click="count(-1,i)">-</button>
                         <span v-html="item.count" style="margin-left: 8px;"/>
@@ -36,6 +36,9 @@
                         <a href="" style="padding-bottom: 5px;">删除</a>   
                         <a href="">放入收藏夹</a>
                     </td>
+                </tr>
+                <tr v-show="list.length==0">
+                    <p>购物车暂无商品</p>
                 </tr>
                 
             </table>
@@ -79,7 +82,7 @@
 export default {
     data(){return{
         body_open:true,//附加产品按钮开关
-        list:[],
+        list:[{price:0,count:0}],
         totalPrice:0
     }},
     methods:{

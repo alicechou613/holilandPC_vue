@@ -24,29 +24,37 @@
             </div>
         </div>
         <div class="div_divdetail">
-            <img src="../assets/ceshi/1548877338311837328.jpg" alt="" class="img_detail"/>
+            <img :src="cake.img_right" alt="" class="img_detail"/>
             <div class="div_title">
-                <h2 class="h2_title">生吐司</h2>
-                <p class="delivery">不支持7天无理由</p>
+                <h2 class="h2_title" v-text="cake.title"></h2>
+                <p class="delivery">&nbsp;</p>
             </div>
-            <h2 class="h2_price">￥25.00</h2>
+            <h2 class="h2_price" v-text="`￥${cake.price.toFixed(2)}`"></h2>
+            <div class="div_btn  btn_left btn_padding" v-show="pattr.length>1">
+                <span class="a_btn">规格</span>
+                <!-- <div class="div_select"> -->
+                    <select name="attr" class="select_attr" id="attr" v-model="attr">
+                        <option value="-1">请选择</option>
+                        <option :value="i" v-for="(elem,i) of pattr" :key="i">{{elem}}</option>
+                    </select>
+                <!-- </div> -->
+            </div>
             <div class="div_btn btn_left">
-                <a href="" class="a_btn">加入购物车</a>
+                <div class="a_btn" @click="add">加入购物车</div>
             </div>
-            <div class="div_btn  btn_right">
-                <a href="" class="a_btn">数量</a>
+            <div class="div_btn  btn_left btn_padding">
+                <span class="a_btn btn_count">数量</span>
+                <button @click="btncount(-1)">-</button>
+                <span class="span_count">{{count}}</span>
+                <button @click="btncount(1)">+</button>
             </div>
             <div class="div_btn btn_left btn_yellow">
-                <a href="" class="a_btn a_buy">立即购买</a>
+                <div class="a_btn a_buy">立即购买</div>
             </div>
         </div>
         </div>
         <div class="div_details">
-            <img src="../assets/ceshi/1548905843270365.jpg"  class="img_details" alt="" />
-            <img src="../assets/ceshi/1548905848545800.jpg"  class="img_details" alt="" />
-            <img src="../assets/ceshi/1548905852218083.jpg"  class="img_details" alt="" />
-            <img src="../assets/ceshi/1548905856985087.jpg"  class="img_details" alt="" />
-            <img src="../assets/ceshi/1548905865876152.jpg"  class="img_details" alt="" />
+            <img :src="elem"  class="img_details" alt="" v-for="(elem,i) of img_body" :key="i" />
         </div>
     </div>
     </div>
@@ -65,7 +73,6 @@ export default {
         styles:{
             width:'',
             marginLeft:''
-            // marginLeft:-this.lg*485+'px'
         }
     }},
     methods:{
@@ -77,8 +84,8 @@ export default {
             // console.log(this.count)
             // console.log(this.cake.pid)
             // type:cake
-        if(this.attr==0){this.attr="-1"}
-            var data=this.qs.stringify({type:'2',pid:this.cake.pid,pattr:this.attr,count:this.count})
+            if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
+            var data=this.qs.stringify({type:'1',pid:this.cake.pid,pattr:this.attr,count:this.count})
             console.log(data)
             // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
             this.axios.post('/api/addCart',data,
@@ -88,11 +95,6 @@ export default {
                 .catch(err=>{console.log(err)})
         },
         move(n){
-            // if(n==-1&&this.lg>=1){
-            //     this.lg+=n
-            // }else if(n==1&&this.lg<=this.img_lg.length-1){
-            //     this.lg+=n
-            // }
             if(n==-1){
                 if(this.lg==0){
                     return
@@ -156,137 +158,195 @@ export default {
 }
 </script>
 <style scoped>
-.content{
-    margin:0 auto;
-    width:996px;
-    z-index:-1;
+.content {
+  margin: 0 auto;
+  width: 996px;
+  z-index: -1;
 }
-.div_top{
-    width:996px;height: 485px;
+.div_top {
+  width: 996px;
+  height: 485px;
 }
-.carousel{
-    float:left;
-    width:485px;height:485px;
-    z-index: -1;
+.carousel {
+  float: left;
+  width: 485px;
+  height: 485px;
+  z-index: -1;
 }
-.div_carousel{
-    position: relative;
-    height:485px;
+.div_carousel {
+  position: relative;
+  overflow: hidden;
+  height: 485px;
 }
-.carousel_inner{
-    width:100%;
-    border:1px solid #ddd;
+.carousel_inner {
+  /* width:100%; */
+  border: 1px solid #ddd;
 }
-.div_img{width:100%}
-.img_carousel{
-    width:100%;
+.div_img {
+  width: 485px;
+  float: left;
 }
-.div_divdetail{
-    width:485px;
-    height:485px;
-    float:right;
+.img_carousel {
+  width: 100%;
+}
+.div_divdetail {
+  width: 485px;
+  height: 485px;
+  float: right;
+  /* overflow: hidden; */
+}
+.img_detail {
+  display: block;
+  width: 485px;
+  height: 290px;
+  margin-bottom: 10px;
+}
+h2 {
+  color: #2093cc;
+  font-size: 20px;
+}
+.div_title {
+  float: left;
+  width: 300px;
+  margin-top: 12px;
+}
+.h2_title {
+  height: 30px;
+  width: 100%;
+}
+.h2_price {
+  float: right;
+  width: 130px;
+  margin-top: 31.8px;
+  text-align: right;
+}
+.delivery {
+  margin-top: 1px;
+}
+.div_btn {
+  height: 50px;
+  width: 230px;
+  /*padding-left:20px;*/
+  margin: 12px 12px 0 0;
+  background-color: #87d0e3;
+  text-align: center;
+  line-height: 50px;
+}
+.btn_left {
+  float: left;
+}
+.btn_padding {
+  text-align: left;
+  box-sizing: border-box;
+  padding-left: 20px;
+  position: relative;
+}
+.btn_count {
+  margin-right: 27px;
+}
+.span_count {
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 123.5px;
+  width: 29px;
+  height: 28px;
+  background: #fff;
+  color: #4fa9d7;
+  text-align: center;
+  line-height: 27px;
+}
+.btn_padding button {
+  width: 29px;
+  height: 28px;
+  vertical-align: middle;
+  border: 1px solid #fff;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  background: #87d0e3;
+  margin: 0 18px;
+  outline: none;
+}
+select {
+  width: 142px;
+  margin-left: 15px;
+  height: 25px;
+}
+/* .div_select{
+     display: inline-block; 
+    float: right;
+    margin:0px 0px 0px 0px;
+    width:138px;
+    height:25px;
     overflow: hidden;
-}
-.img_detail{
-    display: block;
-    width:485px;
-    height:290px;
-    margin-bottom: 10px;
-}
-h2{
-    color:#2093cc;
-    font-size: 20px;
-}
-.div_title{
-    float: left;
-    width: 300px;
-    margin-top:12px;
-}
-.h2_title{
-    height:30px;
-    width: 100%;
-}
-.h2_price{
-    float:right;
-    width: 130px;
-    margin-top:31.8px;
-    text-align: right;
-}
-.delivery{
-    margin-top:1px;
-}
-.div_btn{
-    height:50px;
-    width:235px;
-    /*padding-left:20px;*/
-    margin:12px 12px 0 0;
-    background-color: #87d0e3;
-    text-align: center;
-    line-height: 50px;
-}
-.btn_left{
-    float:left;
-}
-.btn_right{
-    float:right;
-    margin-right:0px;
-}
-.a_btn{
-    color:#fff;
-}
-.btn_yellow{
-    background-color: #ffff00;
-}
-.a_buy{
-    color:#626262;
-}
-.div_details{
-    width:996px;
-    clear:both;
-    margin-top:18px;
-    margin-bottom: 20px;
-}
-.img_details{
-    width:996px;
-    margin-top: -3px;
-}
-.a_prev{
-    display: block;
-    position: absolute;
-    width: 23px;height:25px;
-    background-image: url(../assets/bj_4.png);
+    background-image: url(../assets/select.png);
     background-repeat: no-repeat;
-
+    background-position: right 
+} */
+.select_attr {
+  outline: none;
+  border: none;
 }
-.a_prev_left{
-    background-position: 0px -201px;
-    bottom:6px;
-    left:15px;
+.select_attr option {
+  border: none;
+  outline: none;
 }
-.a_prev_right{
-    background-position: 0px -165px;
-    bottom:6px;
-    right:15px;
+.a_btn {
+  color: #fff;
 }
-.carousel_indicatos{
-
-    position: absolute;
-    /*left:45%;*/
-    display: flex;
-    justify-content:center;
-    bottom:10px;
-    left:45%;
-
+.btn_yellow {
+  background-color: #ffff00;
 }
-.carousel_indicatos li{
-    bottom:5px;
-    display: block;
-    width: 10px;height: 10px;
-    border:1px solid #626262;
-    border-radius:50%;
-    margin: 10px 5px;
+.a_buy {
+  color: #626262;
 }
-.li_active{
-    background-color:#626262 ;
+.div_details {
+  width: 996px;
+  clear: both;
+  margin-top: 18px;
+  margin-bottom: 20px;
+}
+.img_details {
+  width: 996px;
+  margin-top: -3px;
+}
+.a_prev {
+  display: block;
+  position: absolute;
+  width: 23px;
+  height: 25px;
+  background-image: url(../assets/bj_4.png);
+  background-repeat: no-repeat;
+}
+.a_prev_left {
+  background-position: 0px -201px;
+  bottom: 6px;
+  left: 15px;
+}
+.a_prev_right {
+  background-position: 0px -165px;
+  bottom: 6px;
+  right: 15px;
+}
+.carousel_indicatos {
+  position: absolute;
+  /*left:45%;*/
+  display: flex;
+  justify-content: center;
+  bottom: 10px;
+  left: 45%;
+}
+.carousel_indicatos li {
+  bottom: 5px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #626262;
+  border-radius: 50%;
+  margin: 10px 5px;
+}
+.li_active {
+  background-color: #626262;
 }
 </style>

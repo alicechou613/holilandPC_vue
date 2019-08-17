@@ -229,7 +229,7 @@ export default {
             if(res.data.message=='注册成功'){
               //跳转前把check调回false 
               this.check='false'
-              this.$router.push('/')
+              this.$router.push('/login')
             }else{
               alert('此手机号已被注册')
             }

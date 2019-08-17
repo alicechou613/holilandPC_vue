@@ -88,7 +88,6 @@ export default {
             // console.log(this.count)
             // console.log(this.wagashi.pid)
             // type:wagashi
-        // if(this.attr==0){this.attr="-1"}
             if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
             var data=this.qs.stringify({type:'2',pid:this.wagashi.pid,pattr:this.pattr[this.attr],count:this.count})
             console.log(data)
