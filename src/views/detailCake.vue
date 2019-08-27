@@ -30,7 +30,7 @@
                 <p class="delivery">&nbsp;</p>
             </div>
             <h2 class="h2_price" v-text="`￥${cake.price.toFixed(2)}`"></h2>
-            <div class="div_btn  btn_left btn_padding" v-show="pattr.length>1">
+            <div class="div_btn  btn_left btn_padding" v-show="pattr.length>0">
                 <span class="a_btn">规格</span>
                 <!-- <div class="div_select"> -->
                     <select name="attr" class="select_attr" id="attr" v-model="attr">
@@ -49,7 +49,7 @@
                 <button @click="btncount(1)">+</button>
             </div>
             <div class="div_btn btn_left btn_yellow">
-                <div class="a_btn a_buy">立即购买</div>
+                <div class="a_btn a_buy" @click="add(0)">立即购买</div>
             </div>
         </div>
         </div>
@@ -76,7 +76,7 @@ export default {
         }
     }},
     methods:{
-        add(){
+        add(n){
             // console.log(this.cake.pid)
             // console.log(this.pattr[this.attr])
             // console.log(this.attr)
@@ -84,14 +84,29 @@ export default {
             // console.log(this.count)
             // console.log(this.cake.pid)
             // type:cake
-            if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
-            var data=this.qs.stringify({type:'1',pid:this.cake.pid,pattr:this.attr,count:this.count})
-            console.log(data)
+            // console.log(this.attr)
+            if(this.attr=='-1'){
+                alert('请选择口味')
+                return
+            }
+            // console.log(this.pattr)
+            // console.log(this.pattr[this.attr])
+            if(this.pattr[this.attr]==''||this.pattr[this.attr]==0){this.pattr[this.attr]='空'}
+            var data=this.qs.stringify({type:'1',pid:this.cake.pid,pattr:'空',count:this.count})
+            // console.log(data)
             // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
             this.axios.post('/api/addCart',data,
             {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
-                // headers:{"access_user_token":sessionStorage.getItem("token")||localStorage.getItem("token")}
-                }).then(res=>{console.log(res.data)})
+                }).then(res=>{
+                    // console.log(this.count)
+                    //设置每次添加商品，修改购物车商品数量
+                    this.$store.commit('setAddCount',this.count)
+                    // console.log(res.data)
+                    //如果用户点的是立即购买的话会传入0，n=0的话自动在添加购物车以后跳转购物车页
+                        if(n==0){
+                            this.$router.push('/cart')
+                        }
+                    })
                 .catch(err=>{console.log(err)})
         },
         move(n){
@@ -294,6 +309,7 @@ select {
 }
 .a_btn {
   color: #fff;
+  cursor: pointer;
 }
 .btn_yellow {
   background-color: #ffff00;

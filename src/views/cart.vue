@@ -94,13 +94,47 @@ export default {
         //     }
         //     this.totalPrice=total.toString().replace(/\B(?=(\d{3})+$)/g,',')
         // },
-        count(c,n){
-            if(c==-1&&this.list[n].count==1){
+        count(c,i){
+            if(c==-1&&this.list[i].count==1){
                 //删除商品
+                alert('该商品无法再减少，如果需要删除商品请点击右侧的删除按钮')
             }else{
-                this.list[n].count+=c;
+                console.log(this.list[i])
+                console.log(this.list[i].cartid,159)
+                //给服务器传购物车某商品数量的修改,vuex购物车数量修改
+                if(c==1){
+                    //如果是增加的话
+                    var data=this.qs.stringify({cartid:this.list[i].cartid})
+                    this.axios.post('/api/upCart',data,
+                    {
+                        headers:{'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                    }).then(res=>{
+                        console.log(res.data.data)
+                        var code=res.data.data;
+                        console.log(code)
+                            if(code==true){
+                                this.$store.commit('addCount')
+                            }
+                        }).catch(err=>{console.log(err)})
+                }else{
+                    //如果是减少的话
+                    var data=this.qs.stringify({cartid:this.list[i].cartid})
+                    this.axios.post('/api/downCart',data,
+                    {
+                        headers:{'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                    }).then(res=>{
+                        console.log(res.data.data)
+                        var code=res.data.data;
+                        console.log(code)
+                            if(code==true){
+                                this.$store.commit('reduceCount')
+                            }
+                        }).catch(err=>{console.log(err)})
+                }
+                //页面显示的数量更新
+                this.list[i].count+=c;
             }
-            return this.list[n].count
+            return this.list[i].count
         },
         //附加产品按钮开关
         body2_open(){
@@ -113,17 +147,26 @@ export default {
             }
         },
         load(){
-            console.log(1)
-            this.axios.post('/api/getCarts','',
-            {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
-                }).then(res=>{
-                    console.log(res.data.data)
-                    this.list=res.data.data
-                    })
-                .catch(err=>{console.log(err)})
+            // var isLoginb=this.$store.getters.isLogin
+            // this.$store.getters.isLogin00
+            // console.log(123)
+            // console.log(isLoginb)
+            // console.log(456)
+            if(this.$store.getters.isLogin=='true'){
+                this.axios.post('/api/getCarts','',
+                {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                    }).then(res=>{
+                        console.log(res.data.data)
+                        this.list=res.data.data
+                        })
+                    .catch(err=>{console.log(err)})
+            }else{
+                this.$router.push('/login')
+                
+            }
         }
     },
-    created(){
+    mounted(){
         this.load()
     }
     

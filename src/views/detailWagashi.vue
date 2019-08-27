@@ -51,7 +51,7 @@
                 <button @click="btncount(1)">+</button>
             </div>
             <div class="div_btn btn_left btn_yellow">
-                <div class="a_btn a_buy">立即购买</div>
+                <div class="a_btn a_buy"  @click="add(0)">立即购买</div>
             </div>
         </div>
         </div>
@@ -80,20 +80,34 @@ export default {
         }
     }},
     methods:{
-        add(){
+        add(n){
             // console.log(this.wagashi.pid)
-            console.log(this.pattr[this.attr])
+            // console.log(this.pattr,5)
+            // console.log(this.pattr[this.attr])
             // console.log(this.attr)
-            
+            if(this.attr=='-1'){
+                alert('请选择口味')
+                return
+            }
             // console.log(this.count)
             // console.log(this.wagashi.pid)
             // type:wagashi
             if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
             var data=this.qs.stringify({type:'2',pid:this.wagashi.pid,pattr:this.pattr[this.attr],count:this.count})
-            console.log(data)
+            // console.log(data)
             this.axios.post('/api/addCart',data,
             {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
-                }).then(res=>{console.log(res.data)})
+                }).then(res=>{
+                    // console.log(this.count)
+                    //设置每次添加商品，修改购物车商品数量
+                    this.$store.commit('setAddCount',this.count)
+                    // console.log(res.data)
+                    //如果用户点的是立即购买的话会传入0，n=0的话自动在添加购物车以后跳转购物车页
+                        if(n==0){
+                            this.$router.push('/cart')
+                        }
+                    }
+                    )
                 .catch(err=>{console.log(err)})
 
             // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
@@ -108,6 +122,7 @@ export default {
         //         console.log(res)
         //     }).catch((err)=>console.log(err))
         // }
+        
         },
         move(n){
             // if(n==-1&&this.lg>=1){
@@ -151,7 +166,7 @@ export default {
                     "type": this.id
               }}).then(result=>{
                   this.wagashi=result.data.data[0];
-        //   console.log(this.wagashi)
+          console.log(this.wagashi)
           this.img_lg=this.wagashi.img_lg.split(',')
           this.count=this.img_lg.length
             var width=485*this.img_lg.length+"px"
@@ -323,6 +338,7 @@ select {
 }
 .a_btn {
   color: #fff;
+  cursor: pointer;
 }
 .btn_yellow {
   background-color: #ffff00;

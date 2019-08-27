@@ -40,6 +40,11 @@ export default new Vuex.Store({
       state.count--;
       sessionStorage.setItem('count',state.count);
     },
+    setAddCount:(state,count)=>{
+
+      state.count=parseInt(state.count)+parseInt(count);
+      sessionStorage.setItem('count',state.count);
+    },
     //设置购物车数量
     setCount:(state,count)=>{
       state.count=count;
