@@ -78,8 +78,9 @@ export default {
     methods:{
         add(n){
             // console.log(this.cake.pid)
-            // console.log(this.pattr[this.attr])
-            // console.log(this.attr)
+            console.log(this.pattr,1)
+            console.log(this.pattr[this.attr],2)
+            console.log(this.attr,3)
             
             // console.log(this.count)
             // console.log(this.cake.pid)
@@ -92,7 +93,7 @@ export default {
             // console.log(this.pattr)
             // console.log(this.pattr[this.attr])
             if(this.pattr[this.attr]==''||this.pattr[this.attr]==0){this.pattr[this.attr]='空'}
-            var data=this.qs.stringify({type:'1',pid:this.cake.pid,pattr:'空',count:this.count})
+            var data=this.qs.stringify({type:'1',pid:this.cake.pid,pattr:this.pattr[this.attr],count:this.count})
             // console.log(data)
             // this.axios.post('/api/addCart','type=2&pid=1&pattr='+encodeURI('7味全家福系列')+'&count=5',
             this.axios.post('/api/addCart',data,

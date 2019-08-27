@@ -122,7 +122,7 @@
             }else{
               this.$store.commit('setIslogin',sessionStorage.getItem('isLogin'))
             }
-            console.log(this.$store.getters.isLogin,'147')
+            // console.log(this.$store.getters.isLogin,'147')
           }
            if(this.$store.getters.isLogin=='true'){
           //如果是已登录，把缓存中的用户名给vuex
@@ -146,7 +146,7 @@
                //如果是已登录，缓存中有购物车数量，把缓存中的购物车商品数量给vuex
              }
                this.$store.commit('setCount',sessionStorage.getItem('count'))
-               console.log(this.$store.getters.count,888)
+              //  console.log(this.$store.getters.count,888)
            }
           this.uname=this.$store.state.uname
           this.isLogina=this.$store.getters.isLogin

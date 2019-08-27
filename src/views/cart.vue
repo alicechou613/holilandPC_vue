@@ -19,7 +19,7 @@
                 </tr>
                 <tr v-for="(item,i) of list" :key="i">
                     <td>
-                        <input type="checkbox">
+                        <input type="checkbox" >
                         <img :src="item.img_main" alt="">
                         <a href="">{{item.title}}</a>    
                     </td>
@@ -65,8 +65,8 @@
         </div>
         <div class="div_body3">
             <div>
-                <span href="#">全选</span>
-                <span href="#">×删除选中商品</span>
+                <span @click="selectAll">全选</span>
+                <span @click="deleteAll">×删除选中商品</span>
             </div>
             <div>
                 <span>总计:</span>
@@ -83,24 +83,79 @@ export default {
     data(){return{
         body_open:true,//附加产品按钮开关
         list:[{price:0,count:0}],
-        totalPrice:0
+        allSelect:true,//设置全选键状态
     }},
+    computed:{
+        totalPrice:function(){
+            let total=0;
+            console.log(this.list)
+            for(var i=0;i<this.list.length;i++){
+                let item=this.list[i]
+                total+=item.price*item.count
+            }
+             return total.toString().replace(/\B(?=(\d{3})+$)/g,',')
+            // console.log(this.totalPrice)
+            // return this.totalPrice
+        }
+    },
     methods:{
-        // totalPrice1(){
-        //     let total=0;
-        //     for(var i=0;i<this.list.length;i++){
-        //         let item=list[i]
-        //         total+=item.price*item.count
-        //     }
-        //     this.totalPrice=total.toString().replace(/\B(?=(\d{3})+$)/g,',')
-        // },
+        //删除选中的商品
+        deleteAll(){
+            var inputs=document.body.querySelectorAll("input[type='checkbox']")
+            // console.log(inputs)
+            var del=[]
+            //遍历inputs如果有被选中的，则放入数组del里
+            for(var i=0;i<inputs.length;i++){
+                // console.log(inputs[i].checked,i)
+                if(inputs[i].checked==true){
+                    del.push(i)
+                }
+            }
+            // console.log(del)
+            for(var i of del){
+                console.log(this.list,'list')
+                // console.log(this.list[i].cartid)
+                var data=this.qs.stringify({cartid:this.list[i].cartid})
+                this.axios.post('/api/deleteCart',data,
+                {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                    }).then(res=>{
+                    //    console.log(res.data)
+                       this.$router.go(0)
+                        })
+                    .catch(err=>{console.log(err)})
+            }
+
+
+        },
+        //全选按钮
+        selectAll(){
+            var inputs=document.body.querySelectorAll("input[type='checkbox']")
+            for(var item of inputs){
+                // console.log(item.checked)
+                //如果全部未选中或者有几个未选中的就设置全部选中
+               if(item.checked==false){
+                   //allSelect原本为false，如果有没选中的改为true;
+                   this.allSelect=true;
+                   for(var item of inputs){
+                       item.checked=true;
+                   }
+                   return;
+               } 
+            }
+            //如果全部选中，则设置全部未选中
+            if(this.allSelect==true){
+                 for(var item of inputs){
+                     item.checked=false;
+                 }
+            }
+        },
         count(c,i){
             if(c==-1&&this.list[i].count==1){
                 //删除商品
                 alert('该商品无法再减少，如果需要删除商品请点击右侧的删除按钮')
             }else{
-                console.log(this.list[i])
-                console.log(this.list[i].cartid,159)
+                // console.log(this.list[i])
+                // console.log(this.list[i].cartid,159)
                 //给服务器传购物车某商品数量的修改,vuex购物车数量修改
                 if(c==1){
                     //如果是增加的话
@@ -109,9 +164,9 @@ export default {
                     {
                         headers:{'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
                     }).then(res=>{
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         var code=res.data.data;
-                        console.log(code)
+                        // console.log(code)
                             if(code==true){
                                 this.$store.commit('addCount')
                             }
@@ -123,9 +178,9 @@ export default {
                     {
                         headers:{'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
                     }).then(res=>{
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         var code=res.data.data;
-                        console.log(code)
+                        // console.log(code)
                             if(code==true){
                                 this.$store.commit('reduceCount')
                             }
@@ -138,11 +193,11 @@ export default {
         },
         //附加产品按钮开关
         body2_open(){
-            console.log(1)
+            // console.log(1)
             if(this.body_open==false){
                 this.body_open=true;
             }else{
-            console.log(2)
+            // console.log(2)
                 this.body_open=false;
             }
         },
@@ -156,13 +211,12 @@ export default {
                 this.axios.post('/api/getCarts','',
                 {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
                     }).then(res=>{
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         this.list=res.data.data
                         })
                     .catch(err=>{console.log(err)})
             }else{
                 this.$router.push('/login')
-                
             }
         }
     },
@@ -352,5 +406,6 @@ export default {
     float:right;
     margin-right:100px;
 }
+
 </style>
 
