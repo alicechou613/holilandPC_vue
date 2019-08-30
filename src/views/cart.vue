@@ -33,12 +33,12 @@
                     </td>
                     <td  v-text="`￥${(item.price*item.count).toFixed(2)}`"></td>
                     <td>
-                        <a href="" style="padding-bottom: 5px;">删除</a>   
-                        <a href="">放入收藏夹</a>
+                        <span style="padding-bottom: 5px;cursor:pointer;" @click="delPro(item.cartid,item.count)">删除</span>   
+                        <p style="cursor:pointer;">放入收藏夹</p>
                     </td>
                 </tr>
-                <tr v-show="list.length==0">
-                    <p>购物车暂无商品</p>
+                <tr v-show="kong==false">
+                    <p style="margin:20px;">购物车暂无商品</p>
                 </tr>
                 
             </table>
@@ -83,6 +83,7 @@ export default {
     data(){return{
         body_open:true,//附加产品按钮开关
         list:[{price:0,count:0}],
+        kong:false,//判断购物车无商品是否显示
         allSelect:true,//设置全选键状态
     }},
     computed:{
@@ -99,6 +100,20 @@ export default {
         }
     },
     methods:{
+        //删除单个商品
+        delPro(i,count){
+            console.log(i)
+                var data=this.qs.stringify({cartid:i})
+             this.axios.post('/api/deleteCart',data,
+                {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
+                    }).then(res=>{
+                       console.log(res.data)
+                       this.$store.commit('setAddCount',-count)
+                       this.$router.go(0)
+                       
+                        })
+                    .catch(err=>{console.log(err)})
+        },
         //删除选中的商品
         deleteAll(){
             var inputs=document.body.querySelectorAll("input[type='checkbox']")
@@ -113,13 +128,15 @@ export default {
             }
             // console.log(del)
             for(var i of del){
-                console.log(this.list,'list')
-                // console.log(this.list[i].cartid)
+                // console.log(this.list,'list')
+                // console.log(this.list[i].count)
                 var data=this.qs.stringify({cartid:this.list[i].cartid})
                 this.axios.post('/api/deleteCart',data,
                 {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
                     }).then(res=>{
                     //    console.log(res.data)
+                       this.$store.commit('setAddCount',-this.list[i].count)
+                       
                        this.$router.go(0)
                         })
                     .catch(err=>{console.log(err)})
@@ -212,7 +229,11 @@ export default {
                 {headers: {'access_user_token':sessionStorage.getItem("token")||localStorage.getItem("token")}
                     }).then(res=>{
                         // console.log(res.data.data)
+                        if(res.data.data.length==0){
+                            kong=true;
+                        }
                         this.list=res.data.data
+                        // console.log(this.list)
                         })
                     .catch(err=>{console.log(err)})
             }else{

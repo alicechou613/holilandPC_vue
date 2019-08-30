@@ -89,7 +89,7 @@ export default {
                 alert('请选择口味')
                 return
             }
-            // console.log(this.count)
+            console.log(this.count,777)
             // console.log(this.wagashi.pid)
             // type:wagashi
             if(this.pattr[this.attr]==''){this.pattr[this.attr]='空'}
@@ -101,7 +101,7 @@ export default {
                     // console.log(this.count)
                     //设置每次添加商品，修改购物车商品数量
                     this.$store.commit('setAddCount',this.count)
-                    // console.log(res.data)
+                    console.log(res.data)
                     //如果用户点的是立即购买的话会传入0，n=0的话自动在添加购物车以后跳转购物车页
                         if(n==0){
                             this.$router.push('/cart')
